@@ -1,11 +1,14 @@
 <template>
-  <list :url="url"></list>
+  <list :cfg="cfg"></list>
 </template>
 <script>
 export default {
   data(){
       return {
-          url:'/xcfg'
+          cfg:[{
+            "id":1,
+            "name":"zhangsan"
+          }]
       }
   }
 }

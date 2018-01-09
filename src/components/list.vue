@@ -84,8 +84,9 @@ import "datatables.net/js/jquery.dataTables";
 import "datatables.net-bs/js/dataTables.bootstrap";
 
 export default {
-  props: ["url"],
+  props:["cfg"],
   mounted: function() {
+    console.log(this.cfg[0].id);
     $("#tableList").DataTable({
       paging: true,
       lengthChange: false,
