@@ -35,11 +35,12 @@ import 'admin-lte/dist/js/adminlte'
 let DOMAINNAME = ''
 let SERVERNAME = ''
 let API_SERVER = ''
+let GodData = {}
     /**
      *  全局方法
      */
 
-    //获取当前页面路由信息
+//获取当前页面路由信息
 router.afterEach(function(transition) {
     console.log("当前路由参数")
     console.log(transition)
