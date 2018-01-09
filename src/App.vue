@@ -6,11 +6,11 @@
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="/" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><b>A</b>C</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b>Apollo</b>Consul</span>
     </a>
 
     <!-- Header Navbar -->
@@ -125,7 +125,7 @@
               <!-- The user image in the navbar-->
               <img :src="avatar" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs">舒启钊</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -133,8 +133,8 @@
                 <img :src="avatar" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  舒启钊 - 摩拜工程师
+                  <small>完成集成于2018年1月9号</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -183,7 +183,7 @@
           <img :src="avatar" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <p>舒启钊</p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
