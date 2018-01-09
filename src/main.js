@@ -39,7 +39,6 @@ let API_SERVER = ''
      *  全局方法
      */
 
-jQuery(".app").hide()
     //获取当前页面路由信息
 router.afterEach(function(transition) {
     console.log("当前路由参数")
