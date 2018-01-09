@@ -4,7 +4,9 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import '../components/register'
 import Home from "../components/home.vue"
+import XcfgList from "../biz/xcfg/xcfgList.vue"
 /**
  *  加载模块
  */
@@ -18,6 +20,9 @@ const router = new VueRouter({
     routes: [{
         path: '/home',
         component: Home
+    },{
+        path: '/xcfg',
+        component: XcfgList
     }]
 })
 
