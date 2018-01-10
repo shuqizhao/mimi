@@ -1,4 +1,4 @@
 import Vue from 'vue'
-import List from "../components/list.vue"
+const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
 
 Vue.component('list', List);

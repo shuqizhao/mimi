@@ -6,7 +6,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import '../components/register'
 import Home from "../components/home.vue"
-import XcfgList from "../biz/xcfg/xcfgList.vue"
+const XcfgList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgList.vue')), 'xcfg')
 /**
  *  加载模块
  */

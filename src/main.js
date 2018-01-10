@@ -1,9 +1,8 @@
 import Vue from 'vue'
-import App from './App.vue'
-import router from './router/router'
 import VueResource from 'vue-resource'
 
 import 'bootstrap/dist/css/bootstrap.css'
+
 
 //AdminLTE
 import 'admin-lte/dist/css/skins/_all-skins.min.css'
@@ -18,6 +17,11 @@ import 'admin-lte/dist/css/skins/skin-blue.min.css'
 
 import 'bootstrap/dist/js/bootstrap'
 import 'admin-lte/dist/js/adminlte'
+
+//start
+import router from './router/router'
+
+import App from './App.vue'
 
 
 /**
