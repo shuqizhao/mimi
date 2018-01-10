@@ -6,7 +6,10 @@ export default {
   data() {
     return {
       cfg: {
-        url: "/article/NoticeAdminList",
+        title:'xcfg list',
+        desc:'小事一桩',
+        SearchLang:'搜索',
+        url: "http://article/NoticeAdminList",
         columns: [
           {
             title: "ID",
@@ -20,15 +23,18 @@ export default {
           },
           {
             title: "IsTopLang",
-            name: "IsTop"
+            name: "IsTop",
+            isSearch: true
           },
           {
             title: "PublishOrgLang",
-            name: "PubDept"
+            name: "PubDept",
+            isSearch: true,
           },
           {
             title: "IsPublishLang",
-            name: "IsChecked"
+            name: "IsChecked",
+            isSearch: true,
           }
         ],
         fnRowCallback: function(row, data) {

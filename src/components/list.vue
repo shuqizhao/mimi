@@ -1,13 +1,89 @@
 <template>
-<div class="box">
-    <div class="box-header">
-        <h3 class="box-title">Data Table With Full Features</h3>
+<div class="content-wrapper">
+  <section v-if="cfg.title" class="content-header">
+      <h1>
+        {{cfg.title}}
+        <small>{{cfg.desc}}</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+      </ol>
+  </section>
+  <section class="content container-fluid">
+    <div class="box">
+        <div class="box-header">
+            <div class="searchDataTableTop  row-fluid" style="height:auto">
+              <div class="col-md-10" style="border-right:1px dashed blue">
+                  <form class="form-inline" role="form" style="margin-bottom:-25px;">
+                      <div v-for="column in getSearchItems()" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
+                          <label for="name" style="width:auto;display:inline;">{{column.title}}：</label>
+                          <div v-if="column.type=='combox'">
+                            <select class="form-control" :id="column.name" style="width:200px;">
+                                <option v-for="item in column.data" :value="item.id">{{item.value}}</option>
+                            </select>
+                          </div>
+                          <div v-else-if="column.type=='timer'">
+                            <input type="text" class="form-control" :id="column.name" style="width:90px" /> -
+                            <input type="text" class="form-control" :id="column.name+1" style="width:90px" />
+                              <!-- <script type="text/javascript">
+                                  $('#{{column.name}}').datetimepicker({
+                                      lang:"ch",
+                                      format:"Y-m-d",
+                                      timepicker:false,
+                                      todayButton:false
+                                  });
+                                  $('#{{column.name+1}}').datetimepicker({
+                                      lang:"ch",
+                                      format:"Y-m-d",
+                                      timepicker:false,
+                                      todayButton:false
+                                  });
+                              </script> -->
+                          </div>
+                          <div v-else-if="column.type=='suggest'" class="input-group" style="display:inline;">
+                              <input :id="column.name" :name="column.name" type="text" style="width:168px;margin-right:0px;" class="form-control" :controltype='column.type' />
+                              <div class="input-group-btn" style="display:inline;margin-left:0px;">
+                                  <button type="button" class="btn btn-default dropdown-toggle btn-suggest" data-toggle="dropdown">
+                                      <span class="caret"></span>
+                                  </button>
+                                  <ul :class="'dropdown-menu dropdown-menu-right dropdown-suggest-'+column.name" role="menu">
+                                  </ul>
+                              </div>
+                          </div>
+                          <!-- <script v-if="column.type=='suggest'" type="text/javascript">
+                              var data=[];
+                              <% _.each(column.data, function(option,i) { %>
+                                  data.push({id:"<%=option.id%>",word:"<%=option.word%>",description:"<%=option.description%>"});
+                              <%})%>
+                                  $("#<%=column.name%>").bsSuggest({
+                                  indexId: 0, //data.value 的第几个数据，作为input输入框的内容
+                                  indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
+                                  data: {
+                                  'value':data
+                              }
+                              });
+                          </script> -->
+                          <input v-else type="text" class="form-control" :id="column.name" autocomplete="off"/>
+                      </div>
+                  </form>
+              </div>
+              <div class="col-md-2">
+                  <center>
+                      <button class="btn btn-primary btn-large btn-searchDataTable">
+                        搜索
+                      </button>
+                  </center>
+              </div>
+        </div>
+
+        </div>
+        <div class="box-body">
+            <table id="tableList" class="table table-bordered table-hover">
+            </table>
+        </div>
     </div>
-    <div class="box-body">
-        <table id="tableList" class="table table-bordered table-hover">
-            
-        </table>
-    </div>
+  </section>
 </div>
 </template>
 
@@ -147,11 +223,11 @@ export default {
       }
     }
 
-    var data = {
-      columns: searchColumns,
-      title: this.cfg.title,
-      SearchLang: SearchLang
-    };
+    // var data = {
+    //   columns: searchColumns,
+    //   title: this.cfg.title,
+    //   SearchLang: SearchLang
+    // };
     // self.$el.html(self.template(data));
     var searchDataTableTop = $(this.$el).find(".searchDataTableTop");
     if (searchColumns.length == 0) {
@@ -304,34 +380,49 @@ export default {
     //   autoWidth: false
     // };
     var cfg = {
-                "oLanguage": {
-                    "sProcessing": "处理中...",
-                    "sLengthMenu": "每页 _MENU_ 条记录",
-                    "sZeroRecords": "没有匹配的记录",
-                    "sInfo": "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
-                    "sInfoEmpty": "显示第 0 至 0 项记录，共 0 项",
-                    "sInfoFiltered": "(由 _MAX_ 项记录过滤)",
-                    "sInfoPostFix": "",
-                    "sSearch": "过滤:",
-                    "sUrl": "",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上页",
-                        "sNext": "下页",
-                        "sLast": "末页"
-                    }
-                },
-                "bRetrieve": true,
-                'bFilter': true,
-                "bPaginate": true,
-                "bServerSide": true,
-                "bLengthChange": true,
-                "sServerMethod": "POST",
-                "sDom": '<"H"<"dataTables_function"/>rp>t<"F"lip>'
-            };
+      oLanguage: {
+        sProcessing: "处理中...",
+        sLengthMenu: "每页 _MENU_ 条记录",
+        sZeroRecords: "没有匹配的记录",
+        sInfo: "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
+        sInfoEmpty: "显示第 0 至 0 项记录，共 0 项",
+        sInfoFiltered: "(由 _MAX_ 项记录过滤)",
+        sInfoPostFix: "",
+        sSearch: "过滤:",
+        sUrl: "",
+        oPaginate: {
+          sFirst: "首页",
+          sPrevious: "上页",
+          sNext: "下页",
+          sLast: "末页"
+        }
+      },
+      bRetrieve: true,
+      bFilter: true,
+      bPaginate: true,
+      bServerSide: true,
+      bLengthChange: true,
+      sServerMethod: "POST",
+      sDom: '<"H"<"dataTables_function"/>rp>t<"F"lip>'
+    };
 
     var lastCfg = $.extend(true, cfg, this.cfg, dataTableCfg);
     $("#tableList").DataTable(lastCfg);
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    getSearchItems: function() {
+      var searchColumns = [];
+      for (var i = 0; i < this.cfg.columns.length; i++) {
+        var column = this.cfg.columns[i];
+        if (column.isSearch) {
+          searchColumns.push(column);
+        }
+      }
+      return searchColumns;
+    }
   }
 };
 </script>
