@@ -59,22 +59,32 @@ export default {
               text: "EditAdviceLang",
               url: "adadd",
               mode: "navigate",
-              functionName: "PrePublish Advice"
             },
             {
               text: "PublishAdviceLang",
               url: "/admin/article/PublishAdvice",
-              functionName: "Publish Advice",
               tips: "IsSureToPublish",
               limitSelected: "1"
             }
-          ]
+          ],
+          more: [
+            {
+              text: "EditAdviceLang",
+              url: "adadd",
+              mode: "navigate",
+            },
+            {
+              text: "PublishAdviceLang",
+              url: "/admin/article/PublishAdvice",
+              tips: "IsSureToPublish",
+              limitSelected: "1"
+            }
+          ],
         },
         operations: [
           {
             text: "SeeLang",
             url: "adview",
-            functionName: "View Advice"
           }
         ]
       }

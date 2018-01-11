@@ -236,8 +236,8 @@ export default {
       searchDataTableTop.hide();
     }
 
-    var span10Height = searchDataTableTop.find(".span10").height();
-    searchDataTableTop.find(".span2").height(span10Height);
+    var span10Height = searchDataTableTop.find(".col-md-10").height();
+    searchDataTableTop.find(".col-md-2").height(span10Height);
 
     var searchButton = searchDataTableTop.find(".btn-searchDataTable");
 
@@ -262,6 +262,7 @@ export default {
     $(this.$el)
       .find(".dataTables_filter")
       .hide();
+
     var buttons = "";
     //功能按钮处理
     var functions = this.cfg.functions;
@@ -355,14 +356,11 @@ export default {
         }
       }
     }
-    $(this.$el)
-      .find(".dataTables_function")
-      .html(buttons);
     $(this.$el).resize(function() {
       var searchDataTableTop = self.$el.find(".searchDataTableTop");
 
-      var span10Height = searchDataTableTop.find(".span10").height();
-      searchDataTableTop.find(".span2").height(span10Height);
+      var span10Height = searchDataTableTop.find(".col-md-10").height();
+      searchDataTableTop.find(".col-md-2").height(span10Height);
 
       var searchButton = searchDataTableTop.find(".btn-searchDataTable");
 
@@ -410,6 +408,10 @@ export default {
 
     var lastCfg = $.extend(true, cfg, this.cfg, dataTableCfg);
     $("#tableList").DataTable(lastCfg);
+
+    $(this.$el)
+      .find(".dataTables_function")
+      .html(buttons);
   },
   data() {
     return {};
@@ -429,14 +431,14 @@ export default {
       $(function() {
         $("#" + id).daterangepicker(
           {
-            "autoApply": true,
+            autoApply: true,
             timePicker: false,
             showDropdowns: true,
             timePicker24Hour: true,
             linkedCalendars: false,
             autoUpdateInput: false,
             timePickerIncrement: 30,
-            startOfWeek: 'monday',
+            startOfWeek: "monday",
             locale: {
               format: "YYYY/MM/DD",
               separator: " ~ ",
@@ -466,5 +468,9 @@ export default {
 </script>
 
 <style>
-
+.btn-searchDataTable {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
 </style>
