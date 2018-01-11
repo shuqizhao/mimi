@@ -9,7 +9,7 @@ export default {
         title:'xcfg list',
         desc:'小事一桩',
         SearchLang:'搜索',
-        url: "http://article/NoticeAdminList",
+        url: "http://localhost:1101/cfg/list?env=dev",
         columns: [
           {
             title: "ID",
@@ -42,14 +42,14 @@ export default {
         ],
         fnRowCallback: function(row, data) {
           if (data.IsTop == 1) {
-            $("td:eq(3)", row).html(YesLang);
+            $("td:eq(3)", row).html('YesLang');
           } else {
-            $("td:eq(3)", row).html(NoLang);
+            $("td:eq(3)", row).html('NoLang');
           }
           if (data.IsChecked == 1) {
-            $("td:eq(5)", row).html(YesLang);
+            $("td:eq(5)", row).html('YesLang');
           } else {
-            $("td:eq(5)", row).html(NoLang);
+            $("td:eq(5)", row).html('NoLang');
           }
         },
         idName: "ID",

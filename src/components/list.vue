@@ -246,7 +246,7 @@ export default {
       "margin-top",
       (span10Height - searchButtonHeight) / 2 + "px"
     );
-
+    debugger;
     var dataTableCfg = {
       sAjaxSource: this.cfg.url,
       aoColumns: aoColumns,
