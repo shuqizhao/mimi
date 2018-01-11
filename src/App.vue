@@ -1,6 +1,5 @@
 <template>
-    <body class="hold-transition skin-blue sidebar-mini">
-<div class="wrapper">
+<div class="wrapper skin-blue" style="min-height:500px;">
 
   <!-- Main Header -->
   <header class="main-header">
@@ -226,9 +225,7 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div>
-   
-<router-view></router-view>
-    
+   <div style="min-height:480px;"><router-view></router-view></div>
   </div>
   <!-- /.content-wrapper -->
 
@@ -239,7 +236,7 @@
       Anything you want
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2016 <a href="#">shuqizhao</a>.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->
@@ -319,7 +316,6 @@
   immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
 </div>
-</body>
 </template>
 
 <script>

@@ -19,17 +19,20 @@ export default {
           {
             title: "TopicLang",
             name: "Title",
-            isSearch: true
+            isSearch: true,
+             type:'suggest'
           },
           {
             title: "IsTopLang",
             name: "IsTop",
-            isSearch: true
+            isSearch: true,
+            type:'combox'
           },
           {
             title: "PublishOrgLang",
             name: "PubDept",
             isSearch: true,
+             type:'timer'
           },
           {
             title: "IsPublishLang",
