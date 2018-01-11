@@ -52,7 +52,7 @@ export default {
             $("td:eq(5)", row).html('NoLang');
           }
         },
-        idName: "ID",
+        idName: "Id",
         functions: {
           common: [
             {

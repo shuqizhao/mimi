@@ -97,6 +97,7 @@ import "bootstrap-daterangepicker/daterangepicker";
 export default {
   props: ["cfg"],
   mounted: function() {
+    var self = this;
     var GodData = {};
     var searchColumns = [];
     var aoColumns = [];
@@ -107,11 +108,11 @@ export default {
         mDataProp: [0],
         sName: "",
         bSearchable: false,
-        bSortable: false,
-        fnRender: function(oObj) {
+        sortable: false,
+        render: function(data, type, row, meta) {
           var str =
             '<center><input type="checkbox" value="' +
-            oObj.aData[cfg.idName] +
+            row[cfg.idName] +
             '" /></center>';
           return str;
         } //自定义列的样式
@@ -144,10 +145,10 @@ export default {
         sName: "",
         bSearchable: false,
         bSortable: false,
-        fnRender: function(oObj) {
+        render: function(data, type, row, meta) {
           var str = "";
-          for (var i = 0; i < this.cfg.operations.length; i++) {
-            var op = this.cfg.operations[i];
+          for (var i = 0; i < self.cfg.operations.length; i++) {
+            var op = self.cfg.operations[i];
 
             if (i != 0) {
               str += " | ";
@@ -163,11 +164,11 @@ export default {
             } else {
               presuff = op.url.indexOf("?") > 0 ? "&" : "?";
             }
-            var paramUrl = presuff + "id=" + oObj.aData[idName];
-            if (this.cfg.urlParams) {
-              for (var j = 0; j < cfg.urlParams.length; j++) {
+            var paramUrl = presuff + "id=" + row[idName];
+            if (self.cfg.urlParams) {
+              for (var j = 0; j < self.cfg.urlParams.length; j++) {
                 paramUrl +=
-                  "&" + cfg.urlParams[j] + "=" + oObj.aData[cfg.urlParams[j]];
+                  "&" + self.cfg.urlParams[j] + "=" + row[cfg.urlParams[j]];
               }
             }
             if (!op.target) {
@@ -246,7 +247,6 @@ export default {
       "margin-top",
       (span10Height - searchButtonHeight) / 2 + "px"
     );
-    debugger;
     var dataTableCfg = {
       sAjaxSource: this.cfg.url,
       aoColumns: aoColumns,
