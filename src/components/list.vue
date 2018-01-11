@@ -18,19 +18,24 @@
                   <form class="form-inline" role="form" style="margin-bottom:-25px;">
                       <div v-for="column in getSearchItems()" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
                           <label for="name">{{column.title}}：</label>
-                          <i v-if="column.type=='combox'" class="fa fa-fw fa-list-alt"></i>
-                          <i v-else-if="column.type=='timer'" class="fa fa-fw fa-clock-o"></i>
-                          <i v-else-if="column.type=='suggest'" class="fa fa-fw  fa-th-list"></i>
-                          <i v-else class="fa fa-fw fa-text-height"></i>
                           <div v-if="column.type=='combox'" class="input-group">
+                            <div class="input-group-addon">
+                              <i class="fa fa-fw fa-list-alt"></i>
+                            </div>
                             <select class="form-control" :id="column.name" style="width:200px;">
                                 <option v-for="item in column.data" :value="item.id">{{item.value}}</option>
                             </select>
                           </div>
                           <div v-else-if="column.type=='timer'" class="input-group" v-bind="bindTimer(column.name)">
-                            <input type="text" class="form-control" :id="column.name" :name="column.name" style="width:232px;"/>
+                             <div class="input-group-addon">
+                              <i class="fa fa-fw fa-clock-o"></i>
+                            </div>
+                            <input type="text" class="form-control" :id="column.name" :name="column.name"/>
                           </div>
                           <div v-else-if="column.type=='suggest'" class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-fw  fa-th-list"></i>
+                              </div>
                               <input :id="column.name" :name="column.name" type="text" style="width:168px;margin-right:0px;" class="form-control" :controltype='column.type' />
                               <div class="input-group-btn" style="display:inline;margin-left:0px;">
                                   <button type="button" class="btn btn-default dropdown-toggle btn-suggest" data-toggle="dropdown">
@@ -54,7 +59,10 @@
                               });
                           </script> -->
                           <div v-else class="input-group">
-                          <input  type="text" class="form-control" :id="column.name" autocomplete="off"/>
+                            <div class="input-group-addon">
+                              <i class="fa fa-fw fa-text-height"></i>
+                            </div>
+                            <input type="text" class="form-control" :id="column.name" autocomplete="off"/>
                           </div>
                       </div>
                   </form>
@@ -421,13 +429,16 @@ export default {
       $(function() {
         $("#" + id).daterangepicker(
           {
-            timePicker: true,
+            "autoApply": true,
+            timePicker: false,
+            showDropdowns: true,
             timePicker24Hour: true,
             linkedCalendars: false,
             autoUpdateInput: false,
             timePickerIncrement: 30,
+            startOfWeek: 'monday',
             locale: {
-              format: "YYYY/MM/DD H:mm",
+              format: "YYYY/MM/DD",
               separator: " ~ ",
               applyLabel: "应用",
               cancelLabel: "取消",
