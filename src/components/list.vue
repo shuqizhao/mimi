@@ -69,7 +69,8 @@
               </div>
               <div class="col-md-2">
                   <center>
-                      <button class="btn btn-primary btn-large btn-searchDataTable glyphicon glyphicon-search">
+                      <button class="btn btn-primary btn-large btn-searchDataTable btn-app bg-purple">
+                        <i class="glyphicon glyphicon-search"></i>
                         搜索
                       </button>
                   </center>
@@ -94,6 +95,9 @@ import "datatables.net-bs/js/dataTables.bootstrap";
 import "bootstrap-daterangepicker/daterangepicker.css";
 import "bootstrap-daterangepicker/daterangepicker";
 
+import "../../node_modules/admin-lte/plugins/iCheck/all.css";
+import "../../node_modules/admin-lte/plugins/iCheck/icheck";
+
 export default {
   props: ["cfg"],
   mounted: function() {
@@ -108,10 +112,10 @@ export default {
         mDataProp: [0],
         sName: "",
         bSearchable: false,
-        sortable: false,
+        bSortable: false,
         render: function(data, type, row, meta) {
           var str =
-            '<center><input type="checkbox" value="' +
+            '<center><input type="checkbox" class="searchDataTableCheckItem" value="' +
             row[cfg.idName] +
             '" /></center>';
           return str;
@@ -407,11 +411,44 @@ export default {
     };
 
     var lastCfg = $.extend(true, cfg, this.cfg, dataTableCfg);
-    $("#tableList").DataTable(lastCfg);
+    $("#tableList")
+      .on("init.dt", function() {
+        $(".searchDataTableCheckItem").iCheck({
+          checkboxClass: "icheckbox_flat-green",
+          radioClass: "iradio_flat-green"
+        });
+      })
+      .DataTable(lastCfg);
 
-    $(this.$el)
+    $(self.$el)
       .find(".dataTables_function")
       .html(buttons);
+
+    // $(".searchDataTableCheckAll").on("ifChecked", function(event) {
+    //   debugger;
+    //   if (event.target.checked) {
+    //     $("input[name='searchDataTableCheckItem']").each(function() {
+    //       this.checked = true;
+    //     });
+    //   } else {
+    //     $("input[name='searchDataTableCheckItem']").each(function() {
+    //       this.checked = false;
+    //     });
+    //   }
+    // });
+    //全选
+    $(".searchDataTableCheckAll").on("ifChecked", function(event) {
+      $(".searchDataTableCheckItem").iCheck("check");
+    });
+    //反选
+    $(".searchDataTableCheckAll").on("ifUnchecked", function(event) {
+      $(".searchDataTableCheckItem").iCheck("uncheck");
+    });
+   
+    $(".searchDataTableCheckAll").iCheck({
+      checkboxClass: "icheckbox_flat-green",
+      radioClass: "iradio_flat-green"
+    });
   },
   data() {
     return {};

@@ -6,85 +6,81 @@ export default {
   data() {
     return {
       cfg: {
-        title:'xcfg list',
-        desc:'小事一桩',
-        SearchLang:'搜索',
         url: "http://localhost:1101/cfg/list?env=dev",
         columns: [
           {
-            title: "ID",
-            name: "ID",
+            title: "Id",
+            name: "Id",
             isHide: true
           },
           {
-            title: "TopicLang",
-            name: "Title",
-            isSearch: true,
-             type:'suggest'
+            title: "文件名",
+            name: "CfgName",
+            isSearch: true
           },
           {
-            title: "IsTopLang",
-            name: "IsTop",
-            isSearch: true,
-            type:'combox'
+            title: "应用程序名",
+            name: "AppName",
+            isSearch: true
           },
           {
-            title: "PublishOrgLang",
-            name: "PubDept",
-            isSearch: true,
-             type:'timer'
+            title: "版本号",
+            name: "MinorVersion"
           },
           {
-            title: "IsPublishLang",
-            name: "IsChecked",
+            title: "类型",
+            name: "CfgType"
+          },
+          {
+            title: "创建时间",
+            name: "CreateTime",
             isSearch: true,
+            type: "timer"
+          },
+          {
+            title: "修改时间",
+            name: "UpdateTime",
+            isSearch: true,
+            type: "timer"
           }
         ],
         fnRowCallback: function(row, data) {
-          if (data.IsTop == 1) {
-            $("td:eq(3)", row).html('YesLang');
+          $("td:eq(2)", row).html(
+            '<a href="/xcfg/get?id=' +
+              data.Id +
+              '" target="_blank">' +
+              data.CfgName +
+              "</a>"
+          );
+          if (data.CfgType == "" || data.CfgType == "0") {
+            $("td:eq(5)", row).html("标准");
           } else {
-            $("td:eq(3)", row).html('NoLang');
-          }
-          if (data.IsChecked == 1) {
-            $("td:eq(5)", row).html('YesLang');
-          } else {
-            $("td:eq(5)", row).html('NoLang');
+            $("td:eq(5)", row).html("Apollo");
           }
         },
         idName: "Id",
         functions: {
           common: [
             {
-              text: "EditAdviceLang",
-              url: "adadd",
-              mode: "navigate",
+              text: "新建标准配置文件",
+              url: "xcfg/xcfgadd?env=dev",
+              mode: "navigate"
             },
             {
-              text: "PublishAdviceLang",
-              url: "/admin/article/PublishAdvice",
-              tips: "IsSureToPublish",
-              limitSelected: "1"
+              text: "新建Apollo模板",
+              url: "xcfg/xcfgapolloadd?env=dev",
+              mode: "navigate"
             }
-          ],
-          more: [
-            {
-              text: "EditAdviceLang",
-              url: "adadd",
-              mode: "navigate",
-            },
-            {
-              text: "PublishAdviceLang",
-              url: "/admin/article/PublishAdvice",
-              tips: "IsSureToPublish",
-              limitSelected: "1"
-            }
-          ],
+          ]
         },
         operations: [
           {
-            text: "SeeLang",
-            url: "adview",
+            text: "查看",
+            url: "xcfg/xcfgview?env=dev"
+          },
+          {
+            text: "历史",
+            url: "xcfg/xcfghistoryview?env=dev"
           }
         ]
       }
