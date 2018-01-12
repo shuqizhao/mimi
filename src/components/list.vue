@@ -360,8 +360,9 @@ export default {
         }
       }
     }
-    $(this.$el).resize(function() {
-      var searchDataTableTop = self.$el.find(".searchDataTableTop");
+    $(self.$el).resize(function() {
+      debugger;
+      var searchDataTableTop = $(self.$el).find(".searchDataTableTop");
 
       var span10Height = searchDataTableTop.find(".col-md-10").height();
       searchDataTableTop.find(".col-md-2").height(span10Height);
@@ -373,6 +374,7 @@ export default {
         "margin-top",
         (span10Height - searchButtonHeight) / 2 + "px"
       );
+      self.dataTable.fnDraw(false);
     });
 
     // var cfg = {
@@ -411,7 +413,7 @@ export default {
     };
 
     var lastCfg = $.extend(true, cfg, this.cfg, dataTableCfg);
-    $("#tableList")
+    this.dataTable = $("#tableList")
       .on("init.dt", function() {
         $(".searchDataTableCheckItem").iCheck({
           checkboxClass: "icheckbox_flat-green",
