@@ -1,5 +1,5 @@
 <template>
-    <mform :cfg="cfg"></mform>
+    <mform :cfg="cfg" :detail="detail"></mform>
 </template>
 <script>
 export default {
@@ -90,8 +90,7 @@ export default {
           }
         }
       },
-      detail:{
-
+    detail:{
       }
     };
   }
