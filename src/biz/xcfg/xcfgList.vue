@@ -2,11 +2,12 @@
   <list :cfg="cfg"></list>
 </template>
 <script>
+import Global from "../../config/global.vue";
 export default {
   data() {
     return {
       cfg: {
-        url: "http://localhost:1101/cfg/list?env=dev",
+        url: Global.ApiUrl + "/cfg/list?env=dev",
         columns: [
           {
             title: "Id",
@@ -29,7 +30,23 @@ export default {
           },
           {
             title: "类型",
-            name: "CfgType"
+            name: "CfgType",
+            isSearch: true,
+            type: "combox",
+            data: [
+              {
+                id: -1,
+                value: ""
+              },
+              {
+                id: 1,
+                value: "标准"
+              },
+              {
+                id: 2,
+                value: "Apollo"
+              }
+            ]
           },
           {
             title: "创建时间",
@@ -46,7 +63,9 @@ export default {
         ],
         fnRowCallback: function(row, data) {
           $("td:eq(2)", row).html(
-            '<a href="/xcfg/get?id=' +
+            '<a href="' +
+              Global.ApiUrl +
+              "/xcfg/get?id=" +
               data.Id +
               '" target="_blank">' +
               data.CfgName +

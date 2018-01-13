@@ -17,12 +17,12 @@
               <div class="col-md-10" style="border-right:1px dashed blue">
                   <form class="form-inline" role="form" style="margin-bottom:-25px;">
                       <div v-for="column in getSearchItems()" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
-                          <label for="name">{{column.title}}：</label>
-                          <div v-if="column.type=='combox'" class="input-group">
+                          <label class="searchColumTitle" for="name">{{column.title}}：</label>
+                          <div v-if="column.type=='combox'" class="input-group" v-bind="bindCombox(column.name,column.data)">
                             <div class="input-group-addon">
                               <i class="fa fa-fw fa-list-alt"></i>
                             </div>
-                            <select class="form-control" :id="column.name" style="width:200px;">
+                            <select class="form-control" :id="column.name" style="width:175px;">
                                 <option v-for="item in column.data" :value="item.id">{{item.value}}</option>
                             </select>
                           </div>
@@ -442,7 +442,7 @@ export default {
       .click(function() {
         self.searchDataTableMoreOp(this);
       });
-      $(self.$el)
+    $(self.$el)
       .find(".btn-searchDataTable")
       .click(function() {
         self.doSearch(this);
@@ -497,6 +497,16 @@ export default {
           }
         );
       });
+    },
+    bindCombox: function(id, data) {
+      for (var i = 0; i < data.length; i++) {
+        var item = data[i];
+        $(this.$el)
+          .find("#" + id)
+          .insertAfter(
+            '<option value="' + item.id + '">' + item.value + "</option>"
+          );
+      }
     },
     searchDataTableMoreOp: function(e) {
       var self = this;
@@ -653,5 +663,8 @@ export default {
 }
 .dataTables_filter {
   visibility: hidden;
+}
+.searchColumTitle {
+  width: 100px;
 }
 </style>

@@ -138,7 +138,7 @@
                 </p>
               </li>
               <!-- Menu Body -->
-              <li class="user-body">
+              <!-- <li class="user-body">
                 <div class="row">
                   <div class="col-xs-4 text-center">
                     <a href="#">Followers</a>
@@ -150,15 +150,14 @@
                     <a href="#">Friends</a>
                   </div>
                 </div>
-                <!-- /.row -->
-              </li>
+              </li> -->
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="#" @click="signOut" class="btn btn-default btn-flat">退出系统</a>
                 </div>
               </li>
             </ul>
@@ -321,12 +320,18 @@
 </template>
 
 <script>
+import Global from "../config/global.vue"
 export default {
   name: "app",
   data() {
     return {
-      avatar: "/src/assets/user2-160x160.jpg"
+      avatar: Global.Avatar
     };
+  },
+  methods:{
+    signOut:function(){
+      this.$router.push({path:'/login'});
+    }
   }
 };
 </script>
