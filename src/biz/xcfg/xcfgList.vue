@@ -95,7 +95,7 @@ export default {
         operations: [
           {
             text: "查看",
-            url: "xcfg/xcfgview?env=dev"
+            url: "/xcfgview?env=dev"
           },
           {
             text: "历史",

@@ -9,3 +9,6 @@ import Vue from 'vue'
 
 const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
 Vue.component('list', List);
+
+const Form = r => require.ensure([], () => r(require('../components/form.vue')), 'form')
+Vue.component('mform', Form);

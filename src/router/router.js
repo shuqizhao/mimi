@@ -11,6 +11,8 @@ const Home = r => require.ensure([], () => r(require('../components/home.vue')),
 const Login = r => require.ensure([], () => r(require('../components/login.vue')), 'login')
 
 const XcfgList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgList.vue')), 'xcfg')
+
+const XcfgView = r => require.ensure([], () => r(require('../biz/xcfg/xcfgView.vue')), 'xcfg')
 /**
  *  加载模块
  */
@@ -33,6 +35,9 @@ const router = new VueRouter({
     children: [{
       path: '/xcfg',
       component: XcfgList
+    },{
+      path: '/xcfgview',
+      component: XcfgView
     }]
   }]
 })
