@@ -1,9 +1,13 @@
 <template>
-<login></login>
+    <router-view></router-view>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {};
+  }
+};
 </script>
 
 <style>

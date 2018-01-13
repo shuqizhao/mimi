@@ -2,13 +2,13 @@
 <body class="hold-transition login-page">
   <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <b>Admin</b>LTE
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg">请使用指定账号登录</p>
 
-    <form action="../../index2.html" method="post">
+    <form onsubmit="return false;" method="post">
       <div class="form-group has-feedback">
         <input type="email" class="form-control" placeholder="Email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -27,7 +27,7 @@
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button id="signin" @click="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
         </div>
         <!-- /.col -->
       </div>
@@ -42,8 +42,8 @@
     </div>
     <!-- /.social-auth-links -->
 
-    <a href="#">I forgot my password</a><br>
-    <a href="register.html" class="text-center">Register a new membership</a>
+    <!-- <a href="#">I forgot my password</a><br> -->
+    <!-- <a href="register.html" class="text-center">Register a new membership</a> -->
 
   </div>
   <!-- /.login-box-body -->
@@ -55,12 +55,21 @@ import "admin-lte/plugins/iCheck/square/blue.css";
 import "admin-lte/plugins/iCheck/icheck";
 
 export default {
-    mounted: function() {
+  mounted: function() {
     $("input").iCheck({
-        checkboxClass: "icheckbox_square-blue",
-        radioClass: "iradio_square-blue",
-        increaseArea: "20%" // optional
-      });
+      checkboxClass: "icheckbox_square-blue",
+      radioClass: "iradio_square-blue",
+      increaseArea: "20%" // optional
+    });
+    this.$router.push({path:"/home"})
+  },
+  methods: {
+    submit: function() {
+        this.$router.push({path:'/home'});
+    },
+    getFalse:function(){
+        return false;
+    }
   }
 };
 </script>
