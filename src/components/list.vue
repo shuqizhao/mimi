@@ -79,7 +79,7 @@
 
         </div>
         <div class="box-body">
-            <table id="tableList" class="table table-bordered table-hover">
+            <table id="tableList" style="width:100%" class="table table-bordered table-hover">
             </table>
         </div>
     </div>
@@ -92,11 +92,12 @@ import "datatables.net-bs/css/dataTables.bootstrap.css";
 import "datatables.net/js/jquery.dataTables";
 import "datatables.net-bs/js/dataTables.bootstrap";
 
+
 import "bootstrap-daterangepicker/daterangepicker.css";
 import "bootstrap-daterangepicker/daterangepicker";
 
-import "../../node_modules/admin-lte/plugins/iCheck/all.css";
-import "../../node_modules/admin-lte/plugins/iCheck/icheck";
+import "admin-lte/plugins/iCheck/all.css";
+import "admin-lte/plugins/iCheck/icheck";
 
 export default {
   props: ["cfg"],
@@ -360,22 +361,22 @@ export default {
         }
       }
     }
-    $(self.$el).resize(function() {
-      debugger;
-      var searchDataTableTop = $(self.$el).find(".searchDataTableTop");
 
-      var span10Height = searchDataTableTop.find(".col-md-10").height();
-      searchDataTableTop.find(".col-md-2").height(span10Height);
+    // $(window).resize(function() {
+    //   var searchDataTableTop = $(self.$el).find(".searchDataTableTop");
 
-      var searchButton = searchDataTableTop.find(".btn-searchDataTable");
+    //   var span10Height = searchDataTableTop.find(".col-md-10").height();
+    //   searchDataTableTop.find(".col-md-2").height(span10Height);
 
-      var searchButtonHeight = searchButton.outerHeight();
-      searchButton.css(
-        "margin-top",
-        (span10Height - searchButtonHeight) / 2 + "px"
-      );
-      self.dataTable.fnDraw(false);
-    });
+    //   var searchButton = searchDataTableTop.find(".btn-searchDataTable");
+
+    //   var searchButtonHeight = searchButton.outerHeight();
+    //   searchButton.css(
+    //     "margin-top",
+    //     (span10Height - searchButtonHeight) / 2 + "px"
+    //   );
+    //   self.dataTable.clear(); 
+    // });
 
     // var cfg = {
     //   paging: true,
@@ -413,31 +414,18 @@ export default {
     };
 
     var lastCfg = $.extend(true, cfg, this.cfg, dataTableCfg);
-    this.dataTable = $("#tableList")
-      .on("init.dt", function() {
-        $(".searchDataTableCheckItem").iCheck({
-          checkboxClass: "icheckbox_flat-green",
-          radioClass: "iradio_flat-green"
-        });
-      })
-      .DataTable(lastCfg);
+    this.dataTable = $("#tableList").DataTable(lastCfg);
+    this.dataTable.on("draw", function() {
+      $(".searchDataTableCheckItem").iCheck({
+        checkboxClass: "icheckbox_flat-green",
+        radioClass: "iradio_flat-green"
+      });
+    });
 
     $(self.$el)
       .find(".dataTables_function")
       .html(buttons);
 
-    // $(".searchDataTableCheckAll").on("ifChecked", function(event) {
-    //   debugger;
-    //   if (event.target.checked) {
-    //     $("input[name='searchDataTableCheckItem']").each(function() {
-    //       this.checked = true;
-    //     });
-    //   } else {
-    //     $("input[name='searchDataTableCheckItem']").each(function() {
-    //       this.checked = false;
-    //     });
-    //   }
-    // });
     //全选
     $(".searchDataTableCheckAll").on("ifChecked", function(event) {
       $(".searchDataTableCheckItem").iCheck("check");
@@ -446,11 +434,12 @@ export default {
     $(".searchDataTableCheckAll").on("ifUnchecked", function(event) {
       $(".searchDataTableCheckItem").iCheck("uncheck");
     });
-   
+
     $(".searchDataTableCheckAll").iCheck({
       checkboxClass: "icheckbox_flat-green",
       radioClass: "iradio_flat-green"
     });
+    $(self.$el).find(".dataTables_paginate").css("margin-top","-40px")
   },
   data() {
     return {};
@@ -507,9 +496,14 @@ export default {
 </script>
 
 <style>
-.btn-searchDataTable {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
+.dataTables_function {
+  margin-bottom: -40px;
+}
+.dataTables_length {
+  display: inline-block;
+}
+.dataTables_info {
+  margin-left: 40px;
+  display: inline-block;
 }
 </style>
