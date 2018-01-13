@@ -63,12 +63,12 @@ export default {
           common: [
             {
               text: "新建标准配置文件",
-              url: "xcfg/xcfgadd?env=dev",
+              url: "/xcfg/xcfgadd?env=dev",
               mode: "navigate"
             },
             {
               text: "新建Apollo模板",
-              url: "xcfg/xcfgapolloadd?env=dev",
+              url: "/xcfg/xcfgapolloadd?env=dev",
               mode: "navigate"
             }
           ]

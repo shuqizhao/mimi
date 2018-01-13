@@ -92,7 +92,6 @@ import "datatables.net-bs/css/dataTables.bootstrap.css";
 import "datatables.net/js/jquery.dataTables";
 import "datatables.net-bs/js/dataTables.bootstrap";
 
-
 import "bootstrap-daterangepicker/daterangepicker.css";
 import "bootstrap-daterangepicker/daterangepicker";
 
@@ -264,10 +263,6 @@ export default {
       fnDrawCallback: function(oSettings) {}
     };
 
-    $(this.$el)
-      .find(".dataTables_filter")
-      .hide();
-
     var buttons = "";
     //功能按钮处理
     var functions = this.cfg.functions;
@@ -375,7 +370,7 @@ export default {
     //     "margin-top",
     //     (span10Height - searchButtonHeight) / 2 + "px"
     //   );
-    //   self.dataTable.clear(); 
+    //   self.dataTable.clear();
     // });
 
     // var cfg = {
@@ -439,7 +434,14 @@ export default {
       checkboxClass: "icheckbox_flat-green",
       radioClass: "iradio_flat-green"
     });
-    $(self.$el).find(".dataTables_paginate").css("margin-top","-40px")
+    $(self.$el)
+      .find(".dataTables_paginate")
+      .css("margin-top", "-40px");
+    $(self.$el)
+      .find(".searchDataTableMoreOp")
+      .click(function() {
+        self.searchDataTableMoreOp(this);
+      });
   },
   data() {
     return {};
@@ -490,6 +492,127 @@ export default {
           }
         );
       });
+    },
+    searchDataTableMoreOp: function(e) {
+      var self = this;
+      var mode = $(e).attr("mode");
+      var url = $(e).attr("url");
+      var limitSelected = $(e).attr("limitSelected");
+      if (mode == "navigate") {
+        this.$router.push({path:url});
+        return;
+      } else if (mode == "modal") {
+        var modalForm = new ModalForm({
+          el: self.$el,
+          url: url
+        });
+        modalForm.render();
+        Backbone.history.navigate(url);
+        return;
+      }
+      var self = this;
+      var tipMsg = $(e).text();
+      var checks = self.$el.find(".searchDataTable").find(":checkbox[checked]");
+      if (mode != "skipcheck" && checks.length == 0) {
+        var PleaseSelectLang = $.i18n.map["PleaseSelect"];
+        var RecordLang = $.i18n.map["Record"];
+        var kongge = "";
+        if ((GlobalData.Lang = "CN")) {
+          kongge = " ";
+        }
+        $.fn.message({
+          msg: PleaseSelectLang + kongge + RecordLang + "！",
+          type: "warning"
+        });
+      } else {
+        var OkLang = $.i18n.map["Ok"];
+        var CancelLang = $.i18n.map["Cancel"];
+        var TipsLang = $.i18n.map["Tips"];
+        var TipMsg = $.i18n.map["TipMsg"];
+        $.messager.model = {
+          ok: {
+            text: OkLang,
+            classed: "btn-primary"
+          },
+          cancel: {
+            text: CancelLang,
+            classed: "btn-danger"
+          }
+        };
+        var tips = $(e.target).attr("tips");
+        if (tips == "undefined") {
+          tips = TipMsg;
+        }
+        $.messager.confirm(
+          TipsLang,
+          "<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tips + "</h3>",
+          function() {
+            var data = [];
+            checks.each(function() {
+              var idValue = $(this).val();
+              if (idValue != "on") {
+                data.push($(this).val());
+              }
+            });
+            if (mode == "download") {
+              if (limitSelected) {
+                if (limitSelected < data.length) {
+                  $.fn.message({
+                    msg: "只能下载" + limitSelected + "个对象！",
+                    type: "warning"
+                  });
+                  return;
+                }
+              }
+              var form = $("<form>");
+              form.attr("style", "display:none");
+              form.attr("target", "");
+              form.attr("method", "post");
+              form.attr("action", url);
+              for (var i = 0; i < data.length; i++) {
+                var input1 = $("<input>");
+                input1.attr("type", "hidden");
+                input1.attr("name", "ids");
+                input1.attr("value", data[i]);
+                $("body").append(form);
+                form.append(input1);
+              }
+              form.submit();
+            } else {
+              self.godModel.url = url;
+              self.godModel.set({
+                ids: data
+              });
+              var SuccessLang = $.i18n.map["Success"];
+              var ErrorLang = $.i18n.map["Error"];
+              self.godModel.save(
+                {},
+                {
+                  success: function(model, response) {
+                    if (response.Status == 100) {
+                      self.dataTable.sourceDataTable.fnStandingRedraw(false);
+                      $.fn.message({
+                        msg: SuccessLang + "!"
+                      });
+                    } else {
+                      $.fn.message({
+                        msg: response.message + "！",
+                        type: "error"
+                      });
+                    }
+                  },
+                  error: function(err) {
+                    $.fn.message({
+                      msg: ErrorLang + "！",
+                      type: "error"
+                    });
+                  }
+                }
+              );
+            }
+          }
+        );
+      }
     }
   }
 };
@@ -505,5 +628,8 @@ export default {
 .dataTables_info {
   margin-left: 40px;
   display: inline-block;
+}
+.dataTables_filter {
+  visibility: hidden;
 }
 </style>
