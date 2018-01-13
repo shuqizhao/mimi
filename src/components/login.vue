@@ -61,7 +61,6 @@ export default {
       radioClass: "iradio_square-blue",
       increaseArea: "20%" // optional
     });
-    this.$router.push({path:"/home"})
   },
   methods: {
     submit: function() {

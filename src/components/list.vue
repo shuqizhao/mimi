@@ -442,6 +442,11 @@ export default {
       .click(function() {
         self.searchDataTableMoreOp(this);
       });
+      $(self.$el)
+      .find(".btn-searchDataTable")
+      .click(function() {
+        self.doSearch(this);
+      });
   },
   data() {
     return {};
@@ -499,7 +504,7 @@ export default {
       var url = $(e).attr("url");
       var limitSelected = $(e).attr("limitSelected");
       if (mode == "navigate") {
-        this.$router.push({path:url});
+        this.$router.push({ path: url });
         return;
       } else if (mode == "modal") {
         var modalForm = new ModalForm({
@@ -613,6 +618,23 @@ export default {
           }
         );
       }
+    },
+    doSearch: function(e) {
+      var self = this;
+      var data = {};
+
+      $(self.$el)
+        .find(".searchDataTableTop")
+        .find(".form-control")
+        .each(function(index) {
+          var item = $(this);
+          if (item.attr("controltype") == "suggest") {
+            data[this.id] = item.attr("data-id");
+          } else {
+            data[this.id] = item.val();
+          }
+        });
+      self.dataTable.search(JSON.stringify(data)).draw();
     }
   }
 };
