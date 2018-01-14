@@ -28,7 +28,7 @@ export default {
             name: "CfgName",
             title: "文件名",
             type: "text",
-            helpblock:'有一个'
+            helpblock:'文件必填*,大于5小于6'
           },
           {
             name: "AppName",
@@ -59,7 +59,7 @@ export default {
             }
           } else {
             if (data.CfgType != "1") {
-              $('.control-group :contains("模板内容")')
+              $('.form-group :contains("模板内容")')
                 .parent()
                 .hide();
             }

@@ -1,7 +1,7 @@
 <template>
 <div class="content-wrapper">
     <!-- Horizontal Form -->
-    <div class="box box-info">
+    <div class="box box-info" >
         <div v-if="cfg.title" class="box-header with-border">
             <h3 class="box-title">{{cfg.title}}</h3>
             <small>{{cfg.desc}}</small>
@@ -11,8 +11,8 @@
         <form class="form-horizontal" onsubmit='return false;' role="form">
             <div class="box-body">
                 <div v-for="item in cfg.items" class="form-group">
-                    <label v-if="item.type!='hidden'" class="col-sm-2 control-label" for="name">{{item.title}}</label>
-                    <div class="col-sm-8">
+                    <label v-if="item.type!='hidden'" class="col-sm-4 control-label" for="name">{{item.title}}</label>
+                    <div class="col-sm-5">
                         <div v-if="item.type=='baidutext'">
                             <div v-if="cfg.mode=='detailEdit'||cfg.mode=='create'" class="textarea">
                                 <hiden :id="item.name" :name="item.name" class="form-control" rows="5" :controltype='item.type'/>
@@ -94,7 +94,7 @@
                             <label v-else-if="item.type!='hidden'">{{detail[item.name]}}</label>
                         </div>
                     </div>
-                    <span class="col-sm-2 help-block">
+                    <span class="col-sm-3 help-block">
                             {{item.helpblock}}
                     </span>
                 </div>  
@@ -102,26 +102,28 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <!-- Button -->
-                <div v-if="cfg.mode=='edit'||cfg.mode=='create'">
-                    <button class="btn btn-primary btn-commit">SaveLang</button>
-                    <button class="btn btn-info btn-cancel" data-dismiss="modal" aria-hidden="true">CancelLang</button>
-                    <div v-if="cfg.buttons">
-                        <button v-for="item in cfg.buttons" :class="'btn '+item.type+' btn-buttons'" :name='item.name'>{{item.title}}</button>
+                <center>
+                    <div v-if="cfg.mode=='edit'||cfg.mode=='create'">
+                        <button class="btn btn-primary btn-commit">保存</button>
+                        <button class="btn btn-info btn-cancel" data-dismiss="modal" aria-hidden="true">取消</button>
+                        <div v-if="cfg.buttons">
+                            <button v-for="item in cfg.buttons" :class="'btn '+item.type+' btn-buttons'" :name='item.name'>{{item.title}}</button>
+                        </div>
                     </div>
-                </div>
-                <div v-if="cfg.mode=='detailEdit'">
-                    <div v-if="cfg.mode=='detailEdit'&&cfg.detailEditMode!='edit'">
-                        <button class="btn btn-primary btn-edit">EditLang</button>
-                        <button class="btn btn-info btn-cancel" data-dismiss="modal">RetrunLang</button>
+                    <div v-if="cfg.mode=='detailEdit'">
+                        <div v-if="cfg.mode=='detailEdit'&&cfg.detailEditMode!='edit'">
+                            <button @click="btnEdit" class="btn btn-primary btn-edit">编辑</button>
+                            <button @click="btnCancel" class="btn btn-info btn-cancel" data-dismiss="modal">返回</button>
+                        </div>
+                        <div v-if="cfg.mode=='detailEdit'&&cfg.detailEditMode=='edit'">
+                            <button @click="btnDecommit" class="btn btn-primary btn-decommit">保存</button>
+                            <button @click="btnDecancel" class="btn btn-info btn-decancel" data-dismiss="modal">取消</button>
+                        </div>
                     </div>
-                    <div v-if="cfg.mode=='detailEdit'&&cfg.detailEditMode=='edit'">
-                        <button class="btn btn-primary btn-decommit">SaveLang</button>
-                        <button class="btn btn-info btn-decancel" data-dismiss="modal">CancelLang</button>
+                    <div v-if="cfg.mode=='detail'">
+                        <button class="btn btn-info btn-cancel" data-dismiss="modal">返回</button>
                     </div>
-                </div>
-                 <div v-if="cfg.mode=='detail'">
-                    <button class="btn btn-info btn-cancel" data-dismiss="modal">RetrunLang</button>
-                </div>
+                </center>
             </div>
             <!-- /.box-footer -->
         </form>
@@ -136,19 +138,56 @@ export default {
     $.ajax({
       type: "get",
       url: self.cfg.get.url,
-      data:self.cfg.get.params,
-      async: true,
+      data: self.cfg.get.params,
+      async: false,
       success: function(result) {
         if (result.code == "200") {
           self.detail = result.data;
         }
       }
     });
+    // if (self.cfg.afterEditRender) {
+    //   self.cfg.afterEditRender(self.cfg.detailEditMode, self.detail);
+    // }
+  },
+  updated: function() {
+    if (self.cfg.afterEditRender) {
+      self.cfg.afterEditRender(self.cfg.detailEditMode, self.detail);
+    }
   },
   data() {
     return {
       detail: {}
     };
+  },
+  methods: {
+    btnCancel: function() {
+      var self = this;
+      if (self.cfg.onCancel) {
+        self.cfg.onCancel();
+      } else if (self.modal) {
+        //$('.modal-backdrop').hide();
+      } else {
+        //$.fn.navigate();
+        history.go(-1);
+      }
+    },
+    btnEdit: function() {
+      this.cfg.detailEditMode = "edit";
+      //   console.log(this.$route.query)
+      this.$forceUpdate();
+    },
+    btnDecancel: function() {
+      this.cfg.detailEditMode = "detail";
+      this.$forceUpdate();
+    },
+    btnDecommit: function() {
+      self = this;
+      self.btnCommit(null, function() {
+        self.cfg.detailEditMode = "detail";
+        this.$forceUpdate();
+      });
+    }
   }
 };
 </script>
