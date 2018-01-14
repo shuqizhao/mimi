@@ -10,11 +10,12 @@
         "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
     },
     "dependencies": {
+        "admin-lte": "2.4.2",
+        "jquery": "3.2.1",
+        "js-base64": "^2.4.0",
         "vue": "^2.5.11",
         "vue-resource": "1.3.5",
-        "vue-router": "3.0.1",
-        "jquery": "3.2.1",
-        "admin-lte": "2.4.2"
+        "vue-router": "3.0.1"
     },
     "browserslist": [
         "> 1%",

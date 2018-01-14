@@ -12,7 +12,7 @@
             <div class="box-body">
                 <div v-for="item in cfg.items" class="form-group">
                     <label v-if="item.type!='hidden'" class="col-sm-4 control-label" for="name">{{item.title}}</label>
-                    <div class="col-sm-5">
+                    <div :class="item.type=='textxml' ? 'col-sm-8':'col-sm-5'" >
                         <div v-if="item.type=='baidutext'">
                             <div v-if="cfg.mode=='detailEdit'||cfg.mode=='create'" class="textarea">
                                 <hiden :id="item.name" :name="item.name" class="form-control" rows="5" :controltype='item.type'/>
@@ -23,7 +23,7 @@
                             <input v-if="item.type=='hidden'" :id="item.name" type="hidden" class="form-control" :value="detail[item.name]" :controltype='item.type' />
                             <input v-else-if="item.type=='text'" :id="item.name" :name="item.name" type="text" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                             <textarea v-else-if="item.type=='textarea'" :id="item.name" :name="item.name" style='width:270px;' class="form-control" rows="5" :controltype='item.type' :value="detail[item.name]"></textarea>
-                            <iframe v-else-if="item.type=='textxml'" :id="item.name" :name="item.name" style='width:100%;' scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/static/bi/compents/codemirror.html"></iframe>
+                            <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name" :name="item.name" style='width:100%;' scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirror.html"></iframe>
                             <input v-else-if="item.type=='pwd'" :id="item.name" :name="item.name" type="password" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                             <select v-else-if="item.type=='combox'" :id="item.name" style='width:284px;' class="input-xlarge form-control" :controltype='item.type'>
                                 <!-- <option v-for="option in item.data" v-if="option.id==detail[item.name]" selected="selected" :value="option.id">{{option.value}}</option>
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-if="cfg.mode=='detail'||(cfg.mode=='detailEdit'&&cfg.detailEditMode!='edit')" class="input-group">
+                        <div v-if="cfg.mode=='detail'||(cfg.mode=='detailEdit'&&cfg.detailEditMode!='edit')">
                             <input v-if="item.type=='hidden'" :id="item.name" type="hidden" class="form-control" :value="detail[item.name]" :controltype='item.type' />
                             <div v-if="item.type=='yesno'">
                                 <b v-if="detail[item.name]==1" class="icon-ok" style="margin-top:8px;"></b>
@@ -89,12 +89,12 @@
                                     </a>
                                 </p>
                             </div>
-                            <iframe v-else-if="item.type=='textxml'" :id="item.name" :name="item.name" style='width:100%;' scrolling="no" frameborder="0" class="form-control" :controltype='item.type'></iframe>
+                            <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name+'_readonly'" :name="item.name" style='width:100%'  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirror.html"></iframe>
                             <ul v-else-if="item.type=='tree'" :id="item.name+1" class="ztree"></ul>
                             <label v-else-if="item.type!='hidden'">{{detail[item.name]}}</label>
                         </div>
                     </div>
-                    <span class="col-sm-3 help-block">
+                    <span :class="item.type=='textxml' ? '':'col-sm-3'">
                             {{item.helpblock}}
                     </span>
                 </div>  
@@ -131,6 +131,7 @@
 </div>
 </template>
 <script>
+let Base64 = require("js-base64").Base64;
 export default {
   props: ["cfg"],
   mounted: function() {
@@ -151,8 +152,34 @@ export default {
     // }
   },
   updated: function() {
+    self = this;
     if (self.cfg.afterEditRender) {
       self.cfg.afterEditRender(self.cfg.detailEditMode, self.detail);
+    }
+    var iframes = document.getElementsByTagName("iframe");
+    for (var i = 0; i < iframes.length; i++) {
+      var iframe = iframes[i];
+      var readonly = false;
+      if (iframe.id.indexOf("_readonly") > -1) {
+        readonly = true;
+        iframe.onload = function() {
+          var readonly = false;
+          if (iframe.id.indexOf("_readonly") > -1) {
+            readonly = true;
+          }
+          iframe.contentWindow.setValue(
+            iframe.id,
+            Base64.decode(self.detail[iframe.id.split("_")[0]]),
+            readonly
+          );
+        };
+      } else {
+        iframe.contentWindow.setValue(
+          iframe.id,
+          Base64.decode(self.detail[iframe.id]),
+          readonly
+        );
+      }
     }
   },
   data() {
