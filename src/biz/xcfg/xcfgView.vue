@@ -27,7 +27,8 @@ export default {
           {
             name: "CfgName",
             title: "文件名",
-            type: "text"
+            type: "text",
+            helpblock:'有一个'
           },
           {
             name: "AppName",
