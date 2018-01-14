@@ -1,7 +1,9 @@
 <template>
-    <mform :cfg="cfg" :detail="detail"></mform>
+    <mform :cfg="cfg"></mform>
 </template>
 <script>
+import Global from "../../config/global.vue";
+
 export default {
   data() {
     return {
@@ -11,9 +13,9 @@ export default {
         editTitle: "编辑配置文件",
         mode: "detailEdit",
         get: {
-          url: "/cfg/get?env=dev",
+          url:  Global.ApiUrl +"/cfg/get?env="+this.$route.query.env,
           params: {
-            id: '1'
+            id: this.$route.query.id
           }
         },
         save: "/cfg/update?env=dev",
@@ -89,8 +91,6 @@ export default {
             return false;
           }
         }
-      },
-    detail:{
       }
     };
   }
