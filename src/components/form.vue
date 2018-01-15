@@ -8,9 +8,10 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form class="form-inline" onsubmit='return false;' role="form">
+        <form class="form-inline form" onsubmit='return false;' role="form">
             <div class="box-body">
                 <template v-for="item in cfg.items" >
+                    <input v-if="item.type=='hidden'" :id="item.name" type="hidden" class="form-control" :value="detail[item.name]" :controltype='item.type' />
                     <br v-if="item.type=='textxml'" />
                     <div v-if="item.type!='hidden'" class="form-group" style="margin-right:20px;width:100%">
                         <label style="width:10%;text-align: right" for="name">{{item.title}}：</label>
@@ -135,7 +136,7 @@
 </template>
 <script>
 let Base64 = require("js-base64").Base64;
-import "jquery-validation"
+import "jquery-validation";
 export default {
   props: ["cfg"],
   mounted: function() {
@@ -216,7 +217,7 @@ export default {
       self = this;
       self.btnCommit(null, function() {
         self.cfg.detailEditMode = "detail";
-        this.$forceUpdate();
+        self.$forceUpdate();
       });
     },
     btnCommit: function(e, handler) {
@@ -403,58 +404,95 @@ export default {
     },
     saveData: function(data, handler) {
       self = this;
-      var successLang = $.i18n.map["Success"];
+      var successLang = "成功!";
       if (data == null) {
         data = self.getData();
       }
-      var saveGodModel = new GodModel();
-      saveGodModel.url = self.options.cfg.save;
-      saveGodModel.set(data);
-      saveGodModel.save(
-        {},
-        {
-          success: function(model, response) {
-            if (response.code && response.code == "201") {
-              window.open(response.data);
-            } else if (response.code && response.code == "203") {
-              alert("查看console.log");
-              console.log(response.data);
-            }
-            if (response.code == "200") {
-              $.fn.message({
-                msg: self.options.cfg.title + " " + successLang + "！"
-              });
-              //如果是模态窗体,关闭模态
-              $(".aModalForm").modal("hide");
-            } else if (response.message) {
-              self.$el.find(".btn-commit").removeAttr("disabled");
-              $.fn.message({
-                type: "warning",
-                title: "警告",
-                msg: response.message
-              });
-            }
-            if (self.options.cfg.onSuccess) {
-              if (self.options.cfg.onSuccess(model, response)) {
-                if (handler) {
-                  handler(response);
-                } else {
-                  $.fn.navigate();
-                }
-              }
-            } else {
+      $.ajax({
+        type: "POST",
+        // contentType: "application/json;charset=utf-8",
+        // dataType: "json",
+        url: self.cfg.save,
+        data: data,
+        success: function(response) {
+          if (response.code && response.code == "201") {
+            window.open(response.data);
+          } else if (response.code && response.code == "203") {
+            alert("查看console.log");
+            console.log(response.data);
+          }
+          if (response.code == "200") {
+            self.$message({
+              message: successLang,
+              type: "success"
+            });
+            //如果是模态窗体,关闭模态
+            $(".aModalForm").modal("hide");
+          } else if (response.message) {
+            $(self.$el)
+              .find(".btn-commit")
+              .removeAttr("disabled");
+            self.$message({
+              type: "warning",
+              message: response.message
+            });
+          }
+          if (self.cfg.onSuccess) {
+            if (self.cfg.onSuccess(model, response)) {
               if (handler) {
                 handler(response);
               } else {
                 $.fn.navigate();
               }
             }
-          },
-          error: function(err) {
-            console.log(err);
+          } else {
+            if (handler) {
+              handler(response);
+            } else {
+              $.fn.navigate();
+            }
           }
         }
-      );
+      });
+      //   $.post(self.cfg.save, data, function(response) {
+      //     if (response.code && response.code == "201") {
+      //       window.open(response.data);
+      //     } else if (response.code && response.code == "203") {
+      //       alert("查看console.log");
+      //       console.log(response.data);
+      //     }
+      //     if (response.code == "200") {
+      //       self.$message({
+      //         message: successLang,
+      //         type: "success"
+      //       });
+      //       //如果是模态窗体,关闭模态
+      //       $(".aModalForm").modal("hide");
+      //     } else if (response.message) {
+      //       $(self.$el)
+      //         .find(".btn-commit")
+      //         .removeAttr("disabled");
+      //       self.$message({
+      //         type: "warning",
+      //         message: response.message
+      //       });
+      //     }
+      //     if (self.cfg.onSuccess) {
+      //       if (self.cfg.onSuccess(model, response)) {
+      //         if (handler) {
+      //           handler(response);
+      //         } else {
+      //           $.fn.navigate();
+      //         }
+      //       }
+      //     } else {
+      //       if (handler) {
+      //         handler(response);
+      //       } else {
+      //         $.fn.navigate();
+      //       }
+      //     }
+      //   });
     }
   }
 };

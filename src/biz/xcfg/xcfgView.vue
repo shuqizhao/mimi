@@ -17,7 +17,7 @@ export default {
             id: this.$route.query.id
           }
         },
-        save: "/cfg/update?env=dev",
+        save: Global.ApiUrl +"/cfg/update?env=dev",
         items: [
           {
             name: "Id",
