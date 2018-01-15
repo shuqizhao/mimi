@@ -93,7 +93,7 @@
                                 </div>
                                 <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name+'_readonly'" :name="item.name" style='width:100%'  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirror.html"></iframe>
                                 <ul v-else-if="item.type=='tree'" :id="item.name+1" class="ztree"></ul>
-                                <label v-else-if="item.type!='hidden'">{{detail[item.name]}}</label>
+                                <input v-else-if="item.type!='hidden'" class="input-xlarge form-control" disabled='disabled' :value="detail[item.name]" style="width:100%" />
                             </template>
                         </div>
                         <!-- <span>
@@ -135,6 +135,7 @@
 </template>
 <script>
 let Base64 = require("js-base64").Base64;
+import "jquery-validation"
 export default {
   props: ["cfg"],
   mounted: function() {
@@ -217,6 +218,243 @@ export default {
         self.cfg.detailEditMode = "detail";
         this.$forceUpdate();
       });
+    },
+    btnCommit: function(e, handler) {
+      var self = this;
+      var validateCfg = {
+        onfocusout: false,
+        onclick: false,
+        focusInvalid: false,
+        onkeyup: function(element) {
+          //console.log(element);
+          $(element).valid();
+        },
+        errorPlacement: function(error, element) {
+          if (element.attr("controltype") == "suggest") {
+            element
+              .next()
+              .find("button")
+              .attr("data-toggle", "tooltip");
+            element
+              .next()
+              .find("button")
+              .parent()
+              .attr("data-placement", "right");
+            element
+              .next()
+              .find("button")
+              .parent()
+              .attr("data-original-title", error.text());
+            element
+              .next()
+              .find("button")
+              .parent()
+              .tooltip("show");
+
+            if (error.text()) {
+              $.fn.message({
+                type: "warning",
+                msg:
+                  element
+                    .parent()
+                    .parent()
+                    .parent()
+                    .find(".control-label")
+                    .text() +
+                  ":" +
+                  error.text()
+              });
+            }
+          } else if (element.attr("controltype") == "upload") {
+            element
+              .parent()
+              .find("object")
+              .attr("data-toggle", "tooltip");
+            element
+              .parent()
+              .find("object")
+              .parent()
+              .attr("data-placement", "right");
+            element
+              .parent()
+              .find("object")
+              .parent()
+              .attr("data-original-title", error.text());
+            element
+              .parent()
+              .find("object")
+              .parent()
+              .tooltip("show");
+          } else if (element.attr("controltype") == "html5upload") {
+            element
+              .parent()
+              .find(".pekeupload-btn-file")
+              .attr("data-toggle", "tooltip");
+            element
+              .parent()
+              .find(".pekeupload-btn-file")
+              .attr("data-placement", "right");
+            element
+              .parent()
+              .find(".pekeupload-btn-file")
+              .attr("data-original-title", error.text());
+            element
+              .parent()
+              .find(".pekeupload-btn-file")
+              .tooltip("show");
+          } else {
+            element.attr("data-toggle", "tooltip");
+            element.attr("data-placement", "right");
+            element.attr("data-original-title", error.text());
+            element.tooltip("show");
+          }
+          if (element.attr("controltype") != "suggest") {
+            if (error.text()) {
+              $.fn.message({
+                type: "warning",
+                msg:
+                  element
+                    .parent()
+                    .parent()
+                    .find(".control-label")
+                    .text() +
+                  ":" +
+                  error.text()
+              });
+            }
+          }
+
+          //error.appendTo(element.parent());
+        },
+        success: function(error, element) {
+          //console.log(error);
+          //console.log(element);
+          $(element).tooltip("destroy");
+        },
+        submitHandler: function(form) {
+          var data = self.getData();
+          //console.log(data);
+          var isOk = true;
+          if (self.cfg.validate) {
+            //自定义验证
+            isOk = self.cfg.validate(data);
+          }
+
+          if (!isOk) {
+            return;
+          }
+          if (self.cfg.beforeCommit) {
+            self.cfg.beforeCommit(data);
+          }
+          $(self.$el)
+            .find(".btn-commit")
+            .attr("disabled", "disabled");
+          self.saveData(data, handler);
+        }
+      };
+      var lastCfg = $.extend(true, validateCfg, self.cfg);
+      $(self.$el)
+        .find("form")
+        .validate(lastCfg);
+    },
+    btnButtons: function(e) {
+      var name = e.target.name;
+      var buttons = this.options.cfg.buttons;
+      for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].name == name) {
+          buttons[i].handler();
+        }
+      }
+    },
+    getData: function() {
+      var self = this;
+      var data = {};
+      $(self.$el)
+        .find(".form")
+        .find(".form-control")
+        .each(function(index) {
+          var item = $(this);
+          if (this.type == "checkbox") {
+            if (item.attr("checked")) {
+              data[this.id] = 1;
+            } else {
+              data[this.id] = 0;
+            }
+          } else if (item.attr("controltype") == "suggest") {
+            data[this.id] = item.attr("data-id");
+          } else if (item.attr("controltype") == "addline") {
+            var arraytemp = [];
+            item.find("input").each(function() {
+              var input = $(this);
+              arraytemp.push(input.val());
+            });
+            data[this.id] = arraytemp;
+          } else if (item.attr("controltype") == "textxml") {
+            data[this.id] = item[0].contentWindow.getValue();
+          } else if (item.attr("controltype") == "baidutext") {
+            data[this.id] = UE.getEditor(this.id + "1")
+              .getContent()
+              .replace("<video", "<video autoplay");
+          } else {
+            data[this.id] = item.val();
+          }
+        });
+      return data;
+    },
+    saveData: function(data, handler) {
+      self = this;
+      var successLang = $.i18n.map["Success"];
+      if (data == null) {
+        data = self.getData();
+      }
+      var saveGodModel = new GodModel();
+      saveGodModel.url = self.options.cfg.save;
+      saveGodModel.set(data);
+      saveGodModel.save(
+        {},
+        {
+          success: function(model, response) {
+            if (response.code && response.code == "201") {
+              window.open(response.data);
+            } else if (response.code && response.code == "203") {
+              alert("查看console.log");
+              console.log(response.data);
+            }
+            if (response.code == "200") {
+              $.fn.message({
+                msg: self.options.cfg.title + " " + successLang + "！"
+              });
+              //如果是模态窗体,关闭模态
+              $(".aModalForm").modal("hide");
+            } else if (response.message) {
+              self.$el.find(".btn-commit").removeAttr("disabled");
+              $.fn.message({
+                type: "warning",
+                title: "警告",
+                msg: response.message
+              });
+            }
+            if (self.options.cfg.onSuccess) {
+              if (self.options.cfg.onSuccess(model, response)) {
+                if (handler) {
+                  handler(response);
+                } else {
+                  $.fn.navigate();
+                }
+              }
+            } else {
+              if (handler) {
+                handler(response);
+              } else {
+                $.fn.navigate();
+              }
+            }
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        }
+      );
     }
   }
 };

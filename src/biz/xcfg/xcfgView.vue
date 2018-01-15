@@ -3,7 +3,6 @@
 </template>
 <script>
 import Global from "../../config/global.vue";
-
 export default {
   data() {
     return {
@@ -79,15 +78,13 @@ export default {
           }
         },
         validate: function(data) {
-          var result = $.fn.validateXML(data["CfgFile"]);
-          self = this;
+          var result = self.validateXML(data["CfgFile"]);
           if (result.error_code == 0) {
             return true;
           } else {
-            $.fn.message({
-              type: "warning",
-              title: "警告",
-              msg: result.msg
+            self.$message({
+              message: result.msg,
+              type: 'warning'
             });
             return false;
           }
