@@ -120,7 +120,7 @@
                             <button @click="btnCancel" class="btn btn-info btn-cancel" data-dismiss="modal">返回</button>
                         </div>
                         <div v-if="cfg.mode=='detailEdit'&&cfg.detailEditMode=='edit'">
-                            <button @click="btnDecommit" class="btn btn-primary btn-decommit">保存</button>
+                            <button @click="btnDecommit($event)" class="btn btn-primary btn-decommit">保存</button>
                             <button @click="btnDecancel" class="btn btn-info btn-decancel" data-dismiss="modal">取消</button>
                         </div>
                     </div>
@@ -140,21 +140,7 @@ import "jquery-validation";
 export default {
   props: ["cfg"],
   mounted: function() {
-    self = this;
-    $.ajax({
-      type: "get",
-      url: self.cfg.get.url,
-      data: self.cfg.get.params,
-      async: false,
-      success: function(result) {
-        if (result.code == "200") {
-          self.detail = result.data;
-        }
-      }
-    });
-    // if (self.cfg.afterEditRender) {
-    //   self.cfg.afterEditRender(self.cfg.detailEditMode, self.detail);
-    // }
+    this.fillData();
   },
   updated: function() {
     self = this;
@@ -189,7 +175,8 @@ export default {
   },
   data() {
     return {
-      detail: {}
+      detail: {},
+      commiting:false
     };
   },
   methods: {
@@ -206,17 +193,20 @@ export default {
     },
     btnEdit: function() {
       this.cfg.detailEditMode = "edit";
-      //   console.log(this.$route.query)
       this.$forceUpdate();
     },
     btnDecancel: function() {
       this.cfg.detailEditMode = "detail";
       this.$forceUpdate();
     },
-    btnDecommit: function() {
+    btnDecommit: function(event) {
+      var target = event.currentTarget;
       self = this;
-      self.btnCommit(null, function() {
+      self.commiting=true
+      self.btnCommit(target, function() {
         self.cfg.detailEditMode = "detail";
+        self.commiting = false;
+        self.fillData();
         self.$forceUpdate();
       });
     },
@@ -333,6 +323,9 @@ export default {
           $(element).tooltip("destroy");
         },
         submitHandler: function(form) {
+          if(!self.commiting){
+            return
+          }
           var data = self.getData();
           //console.log(data);
           var isOk = true;
@@ -355,7 +348,7 @@ export default {
       };
       var lastCfg = $.extend(true, validateCfg, self.cfg);
       $(self.$el)
-        .find("form")
+        .find(".form")
         .validate(lastCfg);
     },
     btnButtons: function(e) {
@@ -454,45 +447,20 @@ export default {
           }
         }
       });
-      //   $.post(self.cfg.save, data, function(response) {
-      //     if (response.code && response.code == "201") {
-      //       window.open(response.data);
-      //     } else if (response.code && response.code == "203") {
-      //       alert("查看console.log");
-      //       console.log(response.data);
-      //     }
-      //     if (response.code == "200") {
-      //       self.$message({
-      //         message: successLang,
-      //         type: "success"
-      //       });
-      //       //如果是模态窗体,关闭模态
-      //       $(".aModalForm").modal("hide");
-      //     } else if (response.message) {
-      //       $(self.$el)
-      //         .find(".btn-commit")
-      //         .removeAttr("disabled");
-      //       self.$message({
-      //         type: "warning",
-      //         message: response.message
-      //       });
-      //     }
-      //     if (self.cfg.onSuccess) {
-      //       if (self.cfg.onSuccess(model, response)) {
-      //         if (handler) {
-      //           handler(response);
-      //         } else {
-      //           $.fn.navigate();
-      //         }
-      //       }
-      //     } else {
-      //       if (handler) {
-      //         handler(response);
-      //       } else {
-      //         $.fn.navigate();
-      //       }
-      //     }
-      //   });
+    },
+    fillData: function() {
+      self = this;
+      $.ajax({
+        type: "get",
+        url: self.cfg.get.url,
+        data: self.cfg.get.params,
+        async: false,
+        success: function(result) {
+          if (result.code == "200") {
+            self.detail = result.data;
+          }
+        }
+      });
     }
   }
 };
