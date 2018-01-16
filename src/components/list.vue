@@ -107,16 +107,15 @@ export default {
     var aoColumns = [];
     if (this.cfg.functions) {
       aoColumns.push({
-        sTitle:
-          '<center><input type="checkbox" class="searchDataTableCheckAll" /></center>',
-        mDataProp: [0],
+        sTitle:'<center><input type="checkbox" class="searchDataTableCheckAll" /></center>',
+        // mDataProp: [0],
         sName: "",
         bSearchable: false,
         bSortable: false,
         render: function(data, type, row, meta) {
           var str =
             '<center><input type="checkbox" class="searchDataTableCheckItem" value="' +
-            row[cfg.idName] +
+            row[self.cfg.idName] +
             '" /></center>';
           return str;
         } //自定义列的样式
@@ -144,8 +143,8 @@ export default {
       }
       this.cfg.operations = ops;
       aoColumns.push({
-        sTitle: OperationLang,
-        mDataProp: [1],
+        sTitle: '操作',
+        // mDataProp: [1],
         sName: "",
         bSearchable: false,
         bSortable: false,
@@ -157,7 +156,7 @@ export default {
             if (i != 0) {
               str += " | ";
             }
-            var idName = op.idName ? op.idName : cfg.idName;
+            var idName = op.idName ? op.idName : self.cfg.idName;
             var presuff = "";
 
             if (
@@ -172,7 +171,7 @@ export default {
             if (self.cfg.urlParams) {
               for (var j = 0; j < self.cfg.urlParams.length; j++) {
                 paramUrl +=
-                  "&" + self.cfg.urlParams[j] + "=" + row[cfg.urlParams[j]];
+                  "&" + self.cfg.urlParams[j] + "=" + row[self.cfg.urlParams[j]];
               }
             }
             if (!op.target) {
@@ -225,17 +224,12 @@ export default {
           sTitle: column.title,
           mDataProp: column.name,
           sName: column.name,
-          sWidth: column.width
+          sWidth: column.width,
+          bSortable: column.sortable||false,
         });
       }
     }
-
-    // var data = {
-    //   columns: searchColumns,
-    //   title: this.cfg.title,
-    //   SearchLang: SearchLang
-    // };
-    // self.$el.html(self.template(data));
+    
     var searchDataTableTop = $(this.$el).find(".searchDataTableTop");
     if (searchColumns.length == 0) {
       searchDataTableTop.hide();
@@ -251,17 +245,6 @@ export default {
       "margin-top",
       (span10Height - searchButtonHeight) / 2 + "px"
     );
-    var dataTableCfg = {
-      sAjaxSource: this.cfg.url,
-      aoColumns: aoColumns,
-      aoColumnDefs: [
-        {
-          sDefaultContent: "",
-          aTargets: ["_all"]
-        }
-      ],
-      fnDrawCallback: function(oSettings) {}
-    };
 
     var buttons = "";
     //功能按钮处理
@@ -357,31 +340,14 @@ export default {
       }
     }
 
-    // $(window).resize(function() {
-    //   var searchDataTableTop = $(self.$el).find(".searchDataTableTop");
-
-    //   var span10Height = searchDataTableTop.find(".col-md-10").height();
-    //   searchDataTableTop.find(".col-md-2").height(span10Height);
-
-    //   var searchButton = searchDataTableTop.find(".btn-searchDataTable");
-
-    //   var searchButtonHeight = searchButton.outerHeight();
-    //   searchButton.css(
-    //     "margin-top",
-    //     (span10Height - searchButtonHeight) / 2 + "px"
-    //   );
-    //   self.dataTable.clear();
-    // });
-
-    // var cfg = {
-    //   paging: true,
-    //   lengthChange: true,
-    //   searching: true,
-    //   ordering: true,
-    //   info: true,
-    //   autoWidth: false
-    // };
-    var cfg = {
+    var dataTableCfg = {
+      sAjaxSource: this.cfg.url,
+      aoColumns: aoColumns,
+      aoColumnDefs: [
+        {
+          sDefaultContent: "",
+          aTargets: ["_all"]
+        }],
       oLanguage: {
         sProcessing: "处理中...",
         sLengthMenu: "每页 _MENU_ 条记录",
@@ -403,12 +369,13 @@ export default {
       bFilter: true,
       bPaginate: true,
       bServerSide: true,
+      "bSort": false,
       bLengthChange: true,
       sServerMethod: "POST",
       sDom: '<"H"<"dataTables_function"/>rp>t<"F"lip>'
     };
 
-    var lastCfg = $.extend(true, cfg, this.cfg, dataTableCfg);
+    var lastCfg = $.extend(true,dataTableCfg,this.cfg);
     this.dataTable = $("#tableList").DataTable(lastCfg);
     this.dataTable.on("draw", function() {
       $(".searchDataTableCheckItem").iCheck({

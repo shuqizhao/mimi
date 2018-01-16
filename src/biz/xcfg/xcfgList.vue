@@ -8,6 +8,8 @@ export default {
     return {
       cfg: {
         url: Global.ApiUrl + "/cfg/list?env=dev",
+        "aaSorting": [[ 6, "desc" ]],
+        "bSort": true,
         columns: [
           {
             title: "Id",
@@ -52,7 +54,8 @@ export default {
             title: "创建时间",
             name: "CreateTime",
             isSearch: true,
-            type: "timer"
+            type: "timer",
+            sortable:true
           },
           {
             title: "修改时间",
