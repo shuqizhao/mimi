@@ -32,7 +32,7 @@ const Form = r => require.ensure([], () => r(require('../components/form.vue')),
 Vue.component('mform', Form);
 
 const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
-Vue.component('loginOrHome', LoginOrHome);
+Vue.component('mimiApp', LoginOrHome);
 
 Vue.prototype.validateXML = function(xmlContent) {
     //errorCode 0是xml正确，1是xml错误，2是无法验证 

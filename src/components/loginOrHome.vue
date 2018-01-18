@@ -4,6 +4,7 @@
 </template>
 
 <script>
+
 const Home = r =>
   require.ensure([], () => r(require("../components/home.vue")), "home");
 

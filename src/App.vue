@@ -1,13 +1,11 @@
 <template>
-    <loginOrHome :isLogin='isLogin'></loginOrHome>
+    <mimiApp></mimiApp>
 </template>
 
 <script>
 export default {
   data() {
-    return {
-      isLogin:true
-    };
+    return {};
   }
 };
 </script>

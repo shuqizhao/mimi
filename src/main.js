@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import '../src/components/register'
 //start
 import router from './router/router'
 

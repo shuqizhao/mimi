@@ -4,7 +4,7 @@
  */
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import '../components/register'
+
 
 const XcfgList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgList.vue')), 'xcfg')
 
