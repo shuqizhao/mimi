@@ -1,8 +1,11 @@
 {
-  "ApiBaseUrl": "http://localhost:1101",
-  "Avatar": "/src/assets/user2-160x160.jpg",
-  "LoginTitle": "<b>Mi</b>mi",
-  "LoginBoxMsg": "请使用指定账号登录",
-  "LoginUrl": "/auth/login",
-  "LoginCookeName":"adAuthCookie"
+    "ApiBaseUrl": "http://back.mycrm.shop",
+    "Avatar": "/src/assets/user2-160x160.jpg",
+    "LoginTitle": "<b>Mi</b>mi",
+    "LoginBoxMsg": "请使用指定账号登录",
+    "LoginUrl": "/auth/login",
+    "LoginCookeName": "adAuthCookie",
+    "HomeTitle": "<b>远程</b>配置文件管理",
+    "HomeMiniTitle": "<b>X</b>cfg",
+    "HomeMenusUrl": "/auth/menus"
 }

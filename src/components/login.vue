@@ -68,7 +68,7 @@ export default {
           if (result.code == 200 && result.data == 1) {
             self.setCookie(self.getGlobalData().LoginCookeName,'true',1)
             // self.$router.push({ path: "/home" });
-            window.location.reload()
+            //window.location.reload()
           } else {
             self.$message({
               message: "用户名或密码错误",

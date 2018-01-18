@@ -8,9 +8,9 @@
     <!-- Logo -->
     <a href="/" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>C</span>
+      <span class="logo-mini" v-html="this.getGlobalData().HomeMiniTitle"></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Apollo</b>Consul</span>
+      <span class="logo-lg" v-html="this.getGlobalData().HomeTitle"></span>
     </a>
 
     <!-- Header Navbar -->
@@ -154,7 +154,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="#" class="btn btn-default btn-flat">修改密码</a>
                 </div>
                 <div class="pull-right">
                   <a href="#" @click="signOut" class="btn btn-default btn-flat">退出系统</a>
@@ -202,7 +202,7 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">HEADER</li>
+        <li class="header">菜单列表</li>
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><router-link to="/xcfg"><i class="fa fa-link"></i> <span>xcfg</span></router-link></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
@@ -322,16 +322,33 @@
 <script>
 export default {
   name: "app",
+  mounted:function(){
+    this.getMenus();
+  },
   data() {
     return {
-      avatar: this.getGlobalData().Avatar
+      avatar: this.getGlobalData().Avatar,
+      menus:[]
     };
   },
-  methods:{
-    signOut:function(){
+  methods: {
+    signOut: function() {
       var self = this;
-      self.clearCookie(self.getGlobalData().LoginCookeName)
-      window.location.reload()
+      self.clearCookie(self.getGlobalData().LoginCookeName);
+      window.location.reload();
+    },
+    getMenus: function() {
+      var self = this;
+      var config = this.getGlobalData();
+      var menuUrl = config.ApiBaseUrl + config.HomeMenusUrl;
+      $.ajax({
+        url: menuUrl,
+        success: function(result) {
+          if (result.code == 200) {
+            self.menus = result.data;
+          }
+        }
+      });
     }
   }
 };
