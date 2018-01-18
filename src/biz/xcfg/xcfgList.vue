@@ -4,11 +4,12 @@
 <script>
 export default {
   data() {
+    var self = this;
     return {
       cfg: {
         url: this.getGlobalData().ApiUrl + "/cfg/list?env=dev",
-        "aaSorting": [[ 6, "desc" ]],
-        "bSort": true,
+        aaSorting: [[6, "desc"]],
+        bSort: true,
         columns: [
           {
             title: "Id",
@@ -54,7 +55,7 @@ export default {
             name: "CreateTime",
             isSearch: true,
             type: "timer",
-            sortable:true
+            sortable: true
           },
           {
             title: "修改时间",
@@ -66,7 +67,7 @@ export default {
         fnRowCallback: function(row, data) {
           $("td:eq(2)", row).html(
             '<a href="' +
-              Global.ApiUrl +
+              self.getGlobalData().ApiUrl +
               "/xcfg/get?id=" +
               data.Id +
               '" target="_blank">' +
