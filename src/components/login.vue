@@ -1,33 +1,28 @@
 <template>
 <body class="hold-transition login-page">
   <div class="login-box">
-  <div class="login-logo">
-    <b>Admin</b>LTE
+  <div class="login-logo" v-html="this.getGlobalData().LoginTitle">
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">请使用指定账号登录</p>
+    <p class="login-box-msg">{{this.getGlobalData().LoginBoxMsg}}</p>
 
     <form onsubmit="return false;" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
-        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <input type="text" id="un" class="form-control" placeholder="UserName">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" id="pwd" class="form-control" placeholder="Password">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
-          <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> Remember Me
-            </label>
-          </div>
+         <el-checkbox label="下次自动登录" border></el-checkbox>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button id="signin" @click="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button id="signin" @click="submit" class="btn btn-primary btn-block btn-flat">登录</button>
         </div>
         <!-- /.col -->
       </div>
@@ -35,10 +30,8 @@
 
     <div class="social-auth-links text-center">
       <p>- OR -</p>
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
-        Google+</a>
+      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-wechat"></i><center>联系管理员</center></a>
+      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-eye"></i><center>参阅文档</center></a>
     </div>
     <!-- /.social-auth-links -->
 
@@ -51,23 +44,42 @@
 </body>
 </template>
 <script>
-import "admin-lte/plugins/iCheck/square/blue.css";
-import "admin-lte/plugins/iCheck/icheck";
-
 export default {
-  mounted: function() {
-    $("input").iCheck({
-      checkboxClass: "icheckbox_square-blue",
-      radioClass: "iradio_square-blue",
-      increaseArea: "20%" // optional
-    });
+  data() {
+    return {
+      title: ""
+    };
   },
+  mounted: function() {},
   methods: {
     submit: function() {
-        this.$router.push({path:'/home'});
+      var self = this;
+      var config = this.getGlobalData();
+      var loginUrl = config.ApiBaseUrl + config.LoginUrl;
+
+      $.ajax({
+        url: loginUrl,
+        type: "POST",
+        data: {
+          Un: $("#un").val(),
+          Pwd: $("#pwd").val()
+        },
+        success: function(result) {
+          if (result.code == 200 && result.data == 1) {
+            self.setCookie(self.getGlobalData().LoginCookeName,'true',1)
+            // self.$router.push({ path: "/home" });
+            window.location.reload()
+          } else {
+            self.$message({
+              message: "用户名或密码错误",
+              type: "warning"
+            });
+          }
+        }
+      });
     },
-    getFalse:function(){
-        return false;
+    getFalse: function() {
+      return false;
     }
   }
 };

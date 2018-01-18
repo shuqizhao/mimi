@@ -14,10 +14,11 @@ export default {
 //   props: ["isLogin"],
   data() {
     return {
-        isLogin:true
+        isLogin:this.getCookie(this.getGlobalData().LoginCookeName)
     };
   },
-  mounted: function() {},
+  mounted: function() {
+  },
   components: {
     home: Home,
     login: Login

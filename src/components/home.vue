@@ -329,7 +329,9 @@ export default {
   },
   methods:{
     signOut:function(){
-      this.$router.push({path:'/login'});
+      var self = this;
+      self.clearCookie(self.getGlobalData().LoginCookeName)
+      window.location.reload()
     }
   }
 };

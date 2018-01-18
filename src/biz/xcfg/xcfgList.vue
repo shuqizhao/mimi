@@ -7,6 +7,8 @@ export default {
     var self = this;
     return {
       cfg: {
+        title:'开发配置文件列表',
+        desc:'这还不神奇',
         url: this.getGlobalData().ApiBaseUrl + "/cfg/list?env=dev",
         aaSorting: [[6, "desc"]],
         bSort: true,
