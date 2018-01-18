@@ -11,12 +11,12 @@ export default {
         editTitle: "编辑配置文件",
         mode: "detailEdit",
         get: {
-          url:  this.getGlobalData().ApiUrl +"/cfg/get?env="+this.$route.query.env,
+          url:  this.getGlobalData().ApiBaseUrl +"/cfg/get?env="+this.$route.query.env,
           params: {
             id: this.$route.query.id
           }
         },
-        save: this.getGlobalData().ApiUrl +"/cfg/update?env=dev",
+        save: this.getGlobalData().ApiBaseUrl +"/cfg/update?env=dev",
         items: [
           {
             name: "Id",

@@ -7,7 +7,7 @@ export default {
     var self = this;
     return {
       cfg: {
-        url: this.getGlobalData().ApiUrl + "/cfg/list?env=dev",
+        url: this.getGlobalData().ApiBaseUrl + "/cfg/list?env=dev",
         aaSorting: [[6, "desc"]],
         bSort: true,
         columns: [
@@ -67,7 +67,7 @@ export default {
         fnRowCallback: function(row, data) {
           $("td:eq(2)", row).html(
             '<a href="' +
-              self.getGlobalData().ApiUrl +
+              self.getGlobalData().ApiBaseUrl +
               "/xcfg/get?id=" +
               data.Id +
               '" target="_blank">' +
