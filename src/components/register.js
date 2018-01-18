@@ -31,6 +31,9 @@ Vue.component('list', List);
 const Form = r => require.ensure([], () => r(require('../components/form.vue')), 'form')
 Vue.component('mform', Form);
 
+const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
+Vue.component('loginOrHome', LoginOrHome);
+
 Vue.prototype.validateXML = function(xmlContent) {
     //errorCode 0是xml正确，1是xml错误，2是无法验证 
     var xmlDoc, errorMessage, errorCode = 0;

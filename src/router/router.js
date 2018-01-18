@@ -6,10 +6,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import '../components/register'
 
-const Home = r => require.ensure([], () => r(require('../components/home.vue')), 'home')
-
-const Login = r => require.ensure([], () => r(require('../components/login.vue')), 'login')
-
 const XcfgList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgList.vue')), 'xcfg')
 
 const XcfgView = r => require.ensure([], () => r(require('../biz/xcfg/xcfgView.vue')), 'xcfg')
@@ -24,21 +20,11 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [{
-    path: '/',
-    component: Login
-  },{
-    path: '/login',
-    component: Login
+    path: '/xcfg',
+    component: XcfgList
   }, {
-    path: '/home',
-    component: Home,
-    children: [{
-      path: '/xcfg',
-      component: XcfgList
-    },{
-      path: '/xcfgview',
-      component: XcfgView
-    }]
+    path: '/xcfgview',
+    component: XcfgView
   }]
 })
 

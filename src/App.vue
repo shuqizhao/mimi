@@ -1,11 +1,13 @@
 <template>
-    <router-view></router-view>
+    <loginOrHome :isLogin='isLogin'></loginOrHome>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      isLogin:true
+    };
   }
 };
 </script>
