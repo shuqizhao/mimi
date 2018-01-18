@@ -14,7 +14,7 @@ export default {
 //   props: ["isLogin"],
   data() {
     return {
-        isLogin:false
+        isLogin:true
     };
   },
   mounted: function() {},

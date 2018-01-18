@@ -320,12 +320,11 @@
 </template>
 
 <script>
-import Global from "../config/global.vue"
 export default {
   name: "app",
   data() {
     return {
-      avatar: Global.Avatar
+      avatar: this.getGlobalData().Avatar
     };
   },
   methods:{

@@ -2,7 +2,6 @@
     <mform :cfg="cfg"></mform>
 </template>
 <script>
-import Global from "../../config/global.vue";
 export default {
   data() {
     return {
@@ -12,12 +11,12 @@ export default {
         editTitle: "编辑配置文件",
         mode: "detailEdit",
         get: {
-          url:  Global.ApiUrl +"/cfg/get?env="+this.$route.query.env,
+          url:  this.getGlobalData().ApiUrl +"/cfg/get?env="+this.$route.query.env,
           params: {
             id: this.$route.query.id
           }
         },
-        save: Global.ApiUrl +"/cfg/update?env=dev",
+        save: this.getGlobalData().ApiUrl +"/cfg/update?env=dev",
         items: [
           {
             name: "Id",

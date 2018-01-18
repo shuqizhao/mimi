@@ -2,12 +2,11 @@
   <list :cfg="cfg"></list>
 </template>
 <script>
-import Global from "../../config/global.vue";
 export default {
   data() {
     return {
       cfg: {
-        url: Global.ApiUrl + "/cfg/list?env=dev",
+        url: this.getGlobalData().ApiUrl + "/cfg/list?env=dev",
         "aaSorting": [[ 6, "desc" ]],
         "bSort": true,
         columns: [
