@@ -9,6 +9,9 @@ import VueRouter from 'vue-router'
 const XcfgList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgList.vue')), 'xcfg')
 
 const XcfgView = r => require.ensure([], () => r(require('../biz/xcfg/xcfgView.vue')), 'xcfg')
+
+
+const UserList = r => require.ensure([], () => r(require('../biz/auth/user.vue')), 'auth')
 /**
  *  加载模块
  */
@@ -25,6 +28,9 @@ const router = new VueRouter({
   }, {
     path: '/xcfgview',
     component: XcfgView
+  },, {
+    path: '/auth/user',
+    component: UserList
   }]
 })
 

@@ -107,7 +107,8 @@ export default {
     var aoColumns = [];
     if (this.cfg.functions) {
       aoColumns.push({
-        sTitle:'<center><input type="checkbox" class="searchDataTableCheckAll" /></center>',
+        sTitle:
+          '<center><input type="checkbox" class="searchDataTableCheckAll" /></center>',
         // mDataProp: [0],
         sName: "",
         bSearchable: false,
@@ -123,7 +124,7 @@ export default {
     }
     var OperationLang = "Operation";
     var SearchLang = "Search";
-    var MoreLang = "More";
+    var MoreLang = "更多操作";
 
     if (this.cfg.operations) {
       var ops = [];
@@ -143,7 +144,7 @@ export default {
       }
       this.cfg.operations = ops;
       aoColumns.push({
-        sTitle: '操作',
+        sTitle: "操作",
         // mDataProp: [1],
         sName: "",
         bSearchable: false,
@@ -171,7 +172,10 @@ export default {
             if (self.cfg.urlParams) {
               for (var j = 0; j < self.cfg.urlParams.length; j++) {
                 paramUrl +=
-                  "&" + self.cfg.urlParams[j] + "=" + row[self.cfg.urlParams[j]];
+                  "&" +
+                  self.cfg.urlParams[j] +
+                  "=" +
+                  row[self.cfg.urlParams[j]];
               }
             }
             if (!op.target) {
@@ -225,11 +229,11 @@ export default {
           mDataProp: column.name,
           sName: column.name,
           sWidth: column.width,
-          bSortable: column.sortable||false,
+          bSortable: column.sortable || false
         });
       }
     }
-    
+
     var searchDataTableTop = $(this.$el).find(".searchDataTableTop");
     if (searchColumns.length == 0) {
       searchDataTableTop.hide();
@@ -347,7 +351,8 @@ export default {
         {
           sDefaultContent: "",
           aTargets: ["_all"]
-        }],
+        }
+      ],
       oLanguage: {
         sProcessing: "处理中...",
         sLengthMenu: "每页 _MENU_ 条记录",
@@ -369,13 +374,13 @@ export default {
       bFilter: true,
       bPaginate: true,
       bServerSide: true,
-      "bSort": false,
+      bSort: false,
       bLengthChange: true,
       sServerMethod: "POST",
       sDom: '<"H"<"dataTables_function"/>rp>t<"F"lip>'
     };
 
-    var lastCfg = $.extend(true,dataTableCfg,this.cfg);
+    var lastCfg = $.extend(true, dataTableCfg, this.cfg);
     this.dataTable = $("#tableList").DataTable(lastCfg);
     this.dataTable.on("draw", function() {
       $(".searchDataTableCheckItem").iCheck({
@@ -492,48 +497,51 @@ export default {
         Backbone.history.navigate(url);
         return;
       }
-      var self = this;
       var tipMsg = $(e).text();
-      var checks = self.$el.find(".searchDataTable").find(":checkbox[checked]");
+      var checks = $(self.$el).find("input:checkbox:checked");
       if (mode != "skipcheck" && checks.length == 0) {
-        var PleaseSelectLang = $.i18n.map["PleaseSelect"];
-        var RecordLang = $.i18n.map["Record"];
-        var kongge = "";
-        if ((GlobalData.Lang = "CN")) {
-          kongge = " ";
-        }
-        $.fn.message({
-          msg: PleaseSelectLang + kongge + RecordLang + "！",
+        // var PleaseSelectLang = $.i18n.map["PleaseSelect"];
+        // var RecordLang = $.i18n.map["Record"];
+        // var kongge = "";
+        // if ((GlobalData.Lang = "CN")) {
+        //   kongge = " ";
+        // }
+        self.$message({
+          message: "清选择一条记录",
           type: "warning"
         });
       } else {
-        var OkLang = $.i18n.map["Ok"];
-        var CancelLang = $.i18n.map["Cancel"];
-        var TipsLang = $.i18n.map["Tips"];
-        var TipMsg = $.i18n.map["TipMsg"];
-        $.messager.model = {
-          ok: {
-            text: OkLang,
-            classed: "btn-primary"
-          },
-          cancel: {
-            text: CancelLang,
-            classed: "btn-danger"
-          }
-        };
+        // var OkLang = $.i18n.map["Ok"];
+        // var CancelLang = $.i18n.map["Cancel"];
+        // var TipsLang = $.i18n.map["Tips"];
+        // var TipMsg = $.i18n.map["TipMsg"];
+        // $.messager.model = {
+        //   ok: {
+        //     text: OkLang,
+        //     classed: "btn-primary"
+        //   },
+        //   cancel: {
+        //     text: CancelLang,
+        //     classed: "btn-danger"
+        //   }
+        // };
+        var TipMsg = "是否继续?";
         var tips = $(e.target).attr("tips");
-        if (tips == "undefined") {
+        if (!tips) {
           tips = TipMsg;
         }
-        $.messager.confirm(
-          TipsLang,
-          "<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + tips + "</h3>",
-          function() {
-            var data = [];
+        self
+          .$confirm(tips, "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "info"
+          })
+          .then(() => {
+            var formData = [];
             checks.each(function() {
               var idValue = $(this).val();
               if (idValue != "on") {
-                data.push($(this).val());
+                formData.push($(this).val());
               }
             });
             if (mode == "download") {
@@ -561,39 +569,40 @@ export default {
               }
               form.submit();
             } else {
-              self.godModel.url = url;
-              self.godModel.set({
-                ids: data
-              });
-              var SuccessLang = $.i18n.map["Success"];
-              var ErrorLang = $.i18n.map["Error"];
-              self.godModel.save(
-                {},
-                {
-                  success: function(model, response) {
-                    if (response.Status == 100) {
-                      self.dataTable.sourceDataTable.fnStandingRedraw(false);
-                      $.fn.message({
-                        msg: SuccessLang + "!"
-                      });
-                    } else {
-                      $.fn.message({
-                        msg: response.message + "！",
-                        type: "error"
-                      });
-                    }
-                  },
-                  error: function(err) {
-                    $.fn.message({
-                      msg: ErrorLang + "！",
+              $.ajax({
+                url: url,
+                // contentType: "application/json;charset=utf-8",
+                // dataType: "json",
+                traditional: true,
+                //  crossDomain: false,
+                xhrFields: {
+                  withCredentials: true
+                },
+                type: "POST",
+                data: { Ids: formData },
+                success: function(response) {
+                  if (response.code == 200) {
+                    self.dataTable.draw(false);
+                    self.$message({
+                      message: "操作成功!",
+                      type: "success"
+                    });
+                  } else {
+                    self.$message({
+                      message: response.message + "！",
                       type: "error"
                     });
                   }
                 }
-              );
+              });
             }
-          }
-        );
+          })
+          .catch(() => {
+            // this.$message({
+            //   type: "info",
+            //   message: "已取消删除"
+            // });
+          });
       }
     },
     doSearch: function(e) {

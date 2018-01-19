@@ -405,6 +405,9 @@ export default {
         type: "POST",
         // contentType: "application/json;charset=utf-8",
         // dataType: "json",
+        xhrFields: {
+          withCredentials: true
+        },
         url: self.cfg.save,
         data: data,
         success: function(response) {
@@ -452,6 +455,9 @@ export default {
       self = this;
       $.ajax({
         type: "get",
+        xhrFields: {
+          withCredentials: true
+        },
         url: self.cfg.get.url,
         data: self.cfg.get.params,
         async: false,
