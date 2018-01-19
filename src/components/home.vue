@@ -322,13 +322,13 @@
 <script>
 export default {
   name: "app",
-  mounted:function(){
+  mounted: function() {
     this.getMenus();
   },
   data() {
     return {
       avatar: this.getGlobalData().Avatar,
-      menus:[]
+      menus: []
     };
   },
   methods: {
@@ -343,6 +343,9 @@ export default {
       var menuUrl = config.ApiBaseUrl + config.HomeMenusUrl;
       $.ajax({
         url: menuUrl,
+        xhrFields: {
+          withCredentials: true
+        },
         success: function(result) {
           if (result.code == 200) {
             self.menus = result.data;

@@ -59,6 +59,9 @@ export default {
 
       $.ajax({
         url: loginUrl,
+        xhrFields: {
+          withCredentials: true
+        },
         type: "POST",
         data: {
           Un: $("#un").val(),
@@ -66,9 +69,8 @@ export default {
         },
         success: function(result) {
           if (result.code == 200 && result.data == 1) {
-            self.setCookie(self.getGlobalData().LoginCookeName,'true',1)
-            // self.$router.push({ path: "/home" });
-            //window.location.reload()
+            // self.setCookie(self.getGlobalData().LoginCookeName, "true", 1);
+            window.location.reload()
           } else {
             self.$message({
               message: "用户名或密码错误",
