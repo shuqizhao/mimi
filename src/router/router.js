@@ -20,7 +20,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [{
-    path: '/xcfg',
+    path: '/xcfg/xcfg',
     component: XcfgList
   }, {
     path: '/xcfgview',

@@ -204,17 +204,14 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">菜单列表</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><router-link to="/xcfg"><i class="fa fa-link"></i> <span>xcfg</span></router-link></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-        <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+        <li v-for="level0 in getMenusLevel0()" class="treeview">
+          <a href="#"><i class="fa fa-link"></i> <span>{{level0.Name}}</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li v-for="level1 in getMenusLevel1(level0.Id)"><router-link :to="'/'+level1.Url"><i class="fa fa-link"></i> <span>{{level1.Name}}</span></router-link></li>
           </ul>
         </li>
       </ul>
@@ -352,6 +349,25 @@ export default {
           }
         }
       });
+    },
+    getMenusLevel0: function() {
+      return this.menus.filter(this.filterLevel0);
+    },
+    filterLevel0: function(item) {
+      if (item.ParentId == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getMenusLevel1: function(id) {
+      var arr = [];
+      for (var i = 0; i < this.menus.length; i++) {
+        if (this.menus[i].ParentId == id) {
+          arr.push(this.menus[i]);
+        }
+      }
+      return arr;
     }
   }
 };
