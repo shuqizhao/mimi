@@ -12,6 +12,7 @@ const XcfgView = r => require.ensure([], () => r(require('../biz/xcfg/xcfgView.v
 
 
 const UserList = r => require.ensure([], () => r(require('../biz/auth/user.vue')), 'auth')
+const UserView = r => require.ensure([], () => r(require('../biz/auth/userView.vue')), 'auth')
 /**
  *  加载模块
  */
@@ -28,9 +29,12 @@ const router = new VueRouter({
   }, {
     path: '/xcfgview',
     component: XcfgView
-  },, {
+  }, {
     path: '/auth/user',
     component: UserList
+  } ,{
+    path: '/auth/userview',
+    component: UserView
   }]
 })
 
