@@ -18,6 +18,8 @@ const RoleList = r => require.ensure([], () => r(require('../biz/auth/role.vue')
 
 const RoleView = r => require.ensure([], () => r(require('../biz/auth/roleView.vue')), 'auth')
 
+const ResourceList = r => require.ensure([], () => r(require('../biz/auth/resource.vue')), 'auth')
+
 /**
  *  加载模块
  */
@@ -46,6 +48,9 @@ const router = new VueRouter({
   }, {
     path: '/auth/roleview',
     component: RoleView
+  }, {
+    path: '/auth/resource',
+    component: ResourceList
   }]
 })
 

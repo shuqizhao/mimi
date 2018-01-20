@@ -6,8 +6,8 @@
         <small>{{cfg.desc}}</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-        <li class="active">Here</li>
+        <li><a href="/"><i class="fa fa-dashboard"></i> {{cfg.parentTitle}}</a></li>
+        <li class="active">{{cfg.title}}</li>
       </ol>
   </section>
   <section class="content container-fluid">
@@ -629,6 +629,7 @@ export default {
 <style>
 .dataTables_function {
   margin-bottom: -40px;
+  min-height: 30px;
 }
 .dataTables_length {
   display: inline-block;
