@@ -13,6 +13,7 @@ const XcfgView = r => require.ensure([], () => r(require('../biz/xcfg/xcfgView.v
 
 const UserList = r => require.ensure([], () => r(require('../biz/auth/user.vue')), 'auth')
 const UserView = r => require.ensure([], () => r(require('../biz/auth/userView.vue')), 'auth')
+const UserAdd = r => require.ensure([], () => r(require('../biz/auth/userAdd.vue')), 'auth')
 
 const RoleList = r => require.ensure([], () => r(require('../biz/auth/role.vue')), 'auth')
 
@@ -42,6 +43,9 @@ const router = new VueRouter({
   }, {
     path: '/auth/userview',
     component: UserView
+  }, {
+    path: '/auth/useradd',
+    component: UserAdd
   }, {
     path: '/auth/role',
     component: RoleList

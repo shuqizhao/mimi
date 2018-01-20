@@ -117,8 +117,8 @@
                 <!-- Button -->
                 <center>
                     <div v-if="cfg.mode=='edit'||cfg.mode=='create'">
-                        <button class="btn btn-primary btn-commit">保存</button>
-                        <button class="btn btn-info btn-cancel" data-dismiss="modal" aria-hidden="true">取消</button>
+                        <button @click="btnCommit($event)" class="btn btn-primary btn-commit">保存</button>
+                        <button  @click="btnCancel" class="btn btn-info btn-cancel" data-dismiss="modal" aria-hidden="true">取消</button>
                         <div v-if="cfg.buttons">
                             <button v-for="item in cfg.buttons" :class="'btn '+item.type+' btn-buttons'" :name='item.name'>{{item.title}}</button>
                         </div>
@@ -149,7 +149,9 @@ import "jquery-validation";
 export default {
   props: ["cfg"],
   mounted: function() {
-    this.fillData();
+    if (this.cfg.mode != "create") {
+      this.fillData();
+    }
   },
   updated: function() {
     self = this;
@@ -221,14 +223,16 @@ export default {
     },
     btnCommit: function(e, handler) {
       var self = this;
+      self.commiting = true;
       var validateCfg = {
         onfocusout: false,
         onclick: false,
         focusInvalid: false,
-        onkeyup: function(element) {
-          //console.log(element);
-          $(element).valid();
-        },
+        onkeyup: false,
+        // onkeyup: function(element) {
+        //   //console.log(element);
+        //   $(element).valid();
+        // },
         errorPlacement: function(error, element) {
           if (element.attr("controltype") == "suggest") {
             element
@@ -251,20 +255,20 @@ export default {
               .parent()
               .tooltip("show");
 
-            if (error.text()) {
-              $.fn.message({
-                type: "warning",
-                msg:
-                  element
-                    .parent()
-                    .parent()
-                    .parent()
-                    .find(".control-label")
-                    .text() +
-                  ":" +
-                  error.text()
-              });
-            }
+            // if (error.text()) {
+            //   self.$message({
+            //     type: "warning",
+            //     message:
+            //       element
+            //         .parent()
+            //         .parent()
+            //         .parent()
+            //         .find(".control-label")
+            //         .text() +
+            //       ":" +
+            //       error.text()
+            //   });
+            // }
           } else if (element.attr("controltype") == "upload") {
             element
               .parent()
@@ -304,24 +308,34 @@ export default {
               .tooltip("show");
           } else {
             element.attr("data-toggle", "tooltip");
-            element.attr("data-placement", "right");
+            element.attr("data-placement", "top");
             element.attr("data-original-title", error.text());
             element.tooltip("show");
           }
+
           if (element.attr("controltype") != "suggest") {
             if (error.text()) {
-              $.fn.message({
-                type: "warning",
-                msg:
-                  element
-                    .parent()
-                    .parent()
-                    .find(".control-label")
-                    .text() +
-                  ":" +
-                  error.text()
+              self.$notify({
+                title: "验证未通过",
+                message: error.text(),
+                position: "bottom-right",
+                type: "warning"
               });
             }
+
+            // if (error.text()) {
+            //   self.$message({
+            //     type: "warning",
+            //     message:
+            //       element
+            //         .parent()
+            //         .parent()
+            //         .find(".control-label")
+            //         .text() +
+            //       ":" +
+            //       error.text()
+            //   });
+            // }
           }
 
           //error.appendTo(element.parent());
@@ -340,7 +354,7 @@ export default {
           var isOk = true;
           if (self.cfg.validate) {
             //自定义验证
-            isOk = self.cfg.validate(data);
+            isOk = self.cfg.validate(data,self.saveData);
           }
 
           if (!isOk) {
@@ -385,8 +399,8 @@ export default {
             }
           } else if (item.attr("controltype") == "suggest") {
             data[this.id] = item.attr("data-id");
-          }else if (item.attr("controltype") == "yesno") {
-            data[this.id] = item.hasClass("is-checked")?1:0;
+          } else if (item.attr("controltype") == "yesno") {
+            data[this.id] = item.hasClass("is-checked") ? 1 : 0;
           } else if (item.attr("controltype") == "addline") {
             var arraytemp = [];
             item.find("input").each(function() {
@@ -445,18 +459,18 @@ export default {
             });
           }
           if (self.cfg.onSuccess) {
-            if (self.cfg.onSuccess(model, response)) {
+            if (self.cfg.onSuccess(self.cfg.mode, response)) {
               if (handler) {
                 handler(response);
               } else {
-                $.fn.navigate();
+                history.go(-1);
               }
             }
           } else {
             if (handler) {
               handler(response);
             } else {
-              $.fn.navigate();
+              history.go(-1);
             }
           }
         }
