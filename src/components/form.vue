@@ -54,9 +54,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <label v-else-if="item.type=='yesno'" class="checkbox">
-                                    <input :id="item.name" :name="item.name" type="checkbox" class="form-control" :value="detail[item.name]" :controltype='item.type' />
-                                </label>
+                                <el-checkbox v-else-if="item.type=='yesno'" :id="item.name" :name="item.name" :checked="detail[item.name]" :controltype='item.type' border size="medium"></el-checkbox>
                                 <div v-else-if="item.type=='select2select'">
                                     <div :id="item.name"></div>
                                     <input :id="item.name" type="hidden" :value="detail[item.name]" class="form-control" />
@@ -81,8 +79,8 @@
                             <template v-if="cfg.mode=='detail'||(cfg.mode=='detailEdit'&&cfg.detailEditMode!='edit')">
                                 <input v-if="item.type=='hidden'" :id="item.name" type="hidden" class="form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <div v-if="item.type=='yesno'">
-                                    <b v-if="detail[item.name]==1" class="icon-ok" style="margin-top:8px;"></b>
-                                    <b v-else class="icon-remove" style="margin-top:8px;"></b>
+                                    <i v-if="detail[item.name]==1" class="fa fa-fw fa-check-circle" style="margin-top:8px;"></i>
+                                    <i v-else class="el-icon-close" style="margin-top:8px;"></i>
                                 </div>
                                 <div v-else-if="item.type=='uploader'">
                                     <input :id="item.name" :name="item.name" type="text" :value="displayValue" class="form-control" :controltype='item.type' style="width: 0;height: 0;border: 0;background: transparent;" />
