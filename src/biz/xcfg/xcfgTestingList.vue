@@ -7,7 +7,7 @@ export default {
     var self = this;
     return {
       cfg: {
-        title:'开发配置文件列表',
+        title:'测试配置文件列表',
         desc:'这还不神奇',
         url: this.getGlobalData().ApiBaseUrl + "/cfg/list?env="+this.$route.query.env,
         aaSorting: [[6, "desc"]],

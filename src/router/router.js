@@ -6,7 +6,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 
-const XcfgList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgList.vue')), 'xcfg')
+const XcfgDevList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgDevList.vue')), 'xcfg')
+const XcfgTestingList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgTestingList.vue')), 'xcfg')
+const XcfgLabsList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgLabsList.vue')), 'xcfg')
+const XcfgProdList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgProdList.vue')), 'xcfg')
 
 const XcfgView = r => require.ensure([], () => r(require('../biz/xcfg/xcfgView.vue')), 'xcfg')
 
@@ -33,8 +36,17 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [{
-    path: '/xcfg/xcfg',
-    component: XcfgList
+    path: '/xcfg/dev',
+    component: XcfgDevList
+  },{
+    path: '/xcfg/testing',
+    component: XcfgTestingList
+  },{
+    path: '/xcfg/labs',
+    component: XcfgLabsList
+  },{
+    path: '/xcfg/prod',
+    component: XcfgProdList
   }, {
     path: '/xcfgview',
     component: XcfgView
