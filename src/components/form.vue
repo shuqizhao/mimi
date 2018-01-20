@@ -35,8 +35,8 @@
                                 <input v-if="item.type=='hidden'" :id="item.name" type="hidden" class="form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <input v-else-if="item.type=='text'" :id="item.name" :name="item.name" type="text" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <textarea v-else-if="item.type=='textarea'" :id="item.name" :name="item.name" style='width:270px;' class="form-control" rows="5" :controltype='item.type' :value="detail[item.name]"></textarea>
-                                <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirror.html"></iframe>
-                                <iframe v-else-if="item.type=='textnginx'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirrornginx.html"></iframe>
+                                <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' v-bind="bindIframe(item.name)" style="min-height:190px;" src="/src/ref/codemirror/codemirror.html"></iframe>
+                                <iframe v-else-if="item.type=='textnginx'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' v-bind="bindIframe(item.name)" style="min-height:190px;" src="/src/ref/codemirror/codemirrornginx.html"></iframe>
                                 <input v-else-if="item.type=='pwd'" :id="item.name" :name="item.name" type="password" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <select v-else-if="item.type=='combox'" :id="item.name" style='width:284px;' class="input-xlarge form-control" :controltype='item.type'>
                                     <!-- <option v-for="option in item.data" v-if="option.id==detail[item.name]" selected="selected" :value="option.id">{{option.value}}</option>
@@ -155,46 +155,56 @@ export default {
     if (this.cfg.mode != "create") {
       this.fillData();
     }
+    // this.iframeLoad();
   },
   updated: function() {
     self = this;
     if (self.cfg.afterEditRender) {
       self.cfg.afterEditRender(self.cfg.detailEditMode, self.detail);
     }
-    var iframes = document.getElementsByTagName("iframe");
-    for (var i = 0; i < iframes.length; i++) {
-      var iframe = iframes[i];
-      var readonly = false;
-      if (iframe.id.indexOf("_readonly") > -1) {
-        readonly = true;
-        iframe.onload = function(event) {
-          var aiframe = event.target;
-          var readonly = false;
-          if (aiframe.id.indexOf("_readonly") > -1) {
-            readonly = true;
-          }
-          aiframe.contentWindow.setValue(
-            aiframe.id,
-            Base64.decode(self.detail[aiframe.id.split("_")[0]]),
-            readonly
-          );
-        };
-      } else {
-        iframe.contentWindow.setValue(
-          iframe.id,
-          Base64.decode(self.detail[iframe.id]),
-          readonly
-        );
-      }
+    this.iframeLoad();
+  },
+  destroyed: function() {
+    for (var i = 0; i < this.inters.length; i++) {
+      window.clearInterval(this.inters[i]);
     }
   },
   data() {
     return {
       detail: {},
-      commiting: false
+      commiting: false,
+      inters: []
     };
   },
   methods: {
+    iframeLoad: function() {
+      var iframes = document.getElementsByTagName("iframe");
+      for (var i = 0; i < iframes.length; i++) {
+        var iframe = iframes[i];
+        var readonly = false;
+        if (iframe.id.indexOf("_readonly") > -1) {
+          readonly = true;
+          iframe.onload = function(event) {
+            var aiframe = event.target;
+            var readonly = false;
+            if (aiframe.id.indexOf("_readonly") > -1) {
+              readonly = true;
+            }
+            aiframe.contentWindow.setValue(
+              aiframe.id,
+              Base64.decode(self.detail[aiframe.id.split("_")[0]]),
+              readonly
+            );
+          };
+        } else {
+          iframe.contentWindow.setValue(
+            iframe.id,
+            Base64.decode(self.detail[iframe.id]),
+            readonly
+          );
+        }
+      }
+    },
     btnCancel: function() {
       var self = this;
       if (self.cfg.onCancel) {
@@ -359,7 +369,7 @@ export default {
           var isOk = true;
           if (self.cfg.validate) {
             //自定义验证
-            isOk = self.cfg.validate(data,self.saveData);
+            isOk = self.cfg.validate(data, self.saveData);
           }
 
           if (!isOk) {
@@ -415,7 +425,7 @@ export default {
             data[this.id] = arraytemp;
           } else if (item.attr("controltype") == "textxml") {
             data[this.id] = item[0].contentWindow.getValue();
-          }else if (item.attr("controltype") == "textnginx") {
+          } else if (item.attr("controltype") == "textnginx") {
             data[this.id] = item[0].contentWindow.getValue();
           } else if (item.attr("controltype") == "baidutext") {
             data[this.id] = UE.getEditor(this.id + "1")
@@ -523,6 +533,12 @@ export default {
           });
         }
       });
+    },
+    bindIframe: function(id) {
+      // var inter = setInterval(function() {
+      //   $("#" + id)[0].contentWindow.changeFrameHeight(id);
+      // }, 400);
+      // this.inters.push(inter);
     }
   }
 };
