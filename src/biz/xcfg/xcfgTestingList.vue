@@ -8,7 +8,6 @@ export default {
     return {
       cfg: {
         title:'测试配置文件列表',
-        desc:'这还不神奇',
         url: this.getGlobalData().ApiBaseUrl + "/cfg/list?env="+this.$route.query.env,
         aaSorting: [[6, "desc"]],
         bSort: true,
