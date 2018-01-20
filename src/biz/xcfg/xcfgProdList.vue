@@ -99,11 +99,11 @@ export default {
         operations: [
           {
             text: "查看",
-            url: "/xcfgview?env="+this.$route.query.env
+            url: "/xcfg/xcfgview?env="+this.$route.query.env
           },
           {
             text: "历史",
-            url: "xcfg/xcfghistoryview?env="+this.$route.query.env
+            url: "/xcfg/xcfghistoryview?env="+this.$route.query.env
           }
         ]
       }
