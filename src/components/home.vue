@@ -66,7 +66,7 @@
               <span class="label label-warning">10</span>
             </a>
             <ul class="dropdown-menu">
-              <li class="header">You have 10 notifications</li>
+              <li class="header">你有10个告警</li>
               <li>
                 <!-- Inner Menu: contains the notifications -->
                 <ul class="menu">
@@ -154,7 +154,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">修改密码</a>
+                  <router-link to="/auth/usermod"><a href="#" class="btn btn-default btn-flat">修改密码</a></router-link>
                 </div>
                 <div class="pull-right">
                   <a href="#" @click="signOut" class="btn btn-default btn-flat">退出系统</a>
@@ -247,7 +247,7 @@
     <div class="tab-content">
       <!-- Home tab content -->
       <div class="tab-pane active" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
+        <h3 class="control-sidebar-heading">最近操作</h3>
         <ul class="control-sidebar-menu">
           <li>
             <a href="javascript:;">
