@@ -10,7 +10,8 @@ const XcfgDevList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgDev
 const XcfgTestingList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgTestingList.vue')), 'xcfg')
 const XcfgLabsList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgLabsList.vue')), 'xcfg')
 const XcfgProdList = r => require.ensure([], () => r(require('../biz/xcfg/xcfgProdList.vue')), 'xcfg')
-
+const XcfgAdd = r => require.ensure([], () => r(require('../biz/xcfg/xcfgAdd.vue')), 'xcfg')
+const XcfgApolloAdd = r => require.ensure([], () => r(require('../biz/xcfg/xcfgApolloAdd.vue')), 'xcfg')
 const XcfgView = r => require.ensure([], () => r(require('../biz/xcfg/xcfgView.vue')), 'xcfg')
 
 
@@ -48,8 +49,14 @@ const router = new VueRouter({
     path: '/xcfg/prod',
     component: XcfgProdList
   }, {
-    path: '/xcfgview',
+    path: '/xcfg/xcfgview',
     component: XcfgView
+  }, {
+    path: '/xcfg/xcfgadd',
+    component: XcfgAdd
+  }, {
+    path: '/xcfg/xcfgapolloadd',
+    component: XcfgApolloAdd
   }, {
     path: '/auth/user',
     component: UserList
