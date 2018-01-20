@@ -491,7 +491,7 @@ export default {
             selectNothing: function() {
               self.$message({
                 message: "请选择一条记录",
-                type: "info"
+                type: "warning"
               });
             }
           });

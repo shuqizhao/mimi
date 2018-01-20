@@ -507,7 +507,7 @@ export default {
         //   kongge = " ";
         // }
         self.$message({
-          message: "清选择一条记录",
+          message: "请选择一条记录",
           type: "warning"
         });
       } else {
