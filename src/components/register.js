@@ -21,6 +21,8 @@ import 'admin-lte/dist/js/adminlte'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import '../components/select2select'
+
 Vue.use(ElementUI)
 
 // const Home = r => require.ensure([], () => r(require('../components/home.vue')), 'home')

@@ -45,7 +45,7 @@ export default {
         ],
         afterEditRender: function(mode,data) {
           $(self.$el).find("#Name").attr("disabled", true);
-          // $(self.$el).find("#IsEnabled").attr("disabled", true);
+          $(self.$el).find("#IsEnabled").attr("disabled", true);
         }
       }
     };

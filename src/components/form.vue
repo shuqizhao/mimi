@@ -54,9 +54,9 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <el-checkbox v-else-if="item.type=='yesno'" :id="item.name" :name="item.name" :checked="detail[item.name]" :controltype='item.type' border size="medium"></el-checkbox>
-                                <div v-else-if="item.type=='select2select'">
-                                    <div :id="item.name"></div>
+                                <el-checkbox v-else-if="item.type=='yesno'" :id="item.name" :name="item.name" :checked="detail[item.name]==1" :controltype='item.type' border size="medium"></el-checkbox>
+                                <div v-else-if="item.type=='select2select'" v-bind="bindSelect2Select(item.name,item.url)">
+                                    <div :id="item.name+'1'"></div>
                                     <input :id="item.name" type="hidden" :value="detail[item.name]" class="form-control" />
                                 </div>
                                 <div v-else-if="item.type=='tree'">
@@ -174,7 +174,7 @@ export default {
   data() {
     return {
       detail: {},
-      commiting:false
+      commiting: false
     };
   },
   methods: {
@@ -200,7 +200,7 @@ export default {
     btnDecommit: function(event) {
       var target = event.currentTarget;
       self = this;
-      self.commiting=true
+      self.commiting = true;
       self.btnCommit(target, function() {
         self.cfg.detailEditMode = "detail";
         self.commiting = false;
@@ -321,8 +321,8 @@ export default {
           $(element).tooltip("destroy");
         },
         submitHandler: function(form) {
-          if(!self.commiting){
-            return
+          if (!self.commiting) {
+            return;
           }
           var data = self.getData();
           //console.log(data);
@@ -463,6 +463,30 @@ export default {
           if (result.code == "200") {
             self.detail = result.data;
           }
+        }
+      });
+    },
+    bindSelect2Select: function(id, url) {
+      var self = this;
+      $.ajax({
+        type: "GET",
+        url: url,
+        success: function(data) {
+          $("#" + id + "1").selectToSelect({
+            size: 10,
+            opSelect: data.left,
+            opReSelect: data.right,
+            onChange: function(options) {
+              var ids = $("#" + id + "1").selectToSelect("getSelectedIds");
+              $("#" + id).val(ids);
+            },
+            selectNothing: function() {
+              self.$message({
+                message: "请选择一条记录",
+                type: "info"
+              });
+            }
+          });
         }
       });
     }

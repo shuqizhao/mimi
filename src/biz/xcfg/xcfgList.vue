@@ -9,7 +9,7 @@ export default {
       cfg: {
         title:'开发配置文件列表',
         desc:'这还不神奇',
-        url: this.getGlobalData().ApiBaseUrl + "/cfg/list?env=dev",
+        url: this.getGlobalData().ApiBaseUrl + "/cfg/list?env="+this.$route.query.env,
         aaSorting: [[6, "desc"]],
         bSort: true,
         columns: [
@@ -87,12 +87,12 @@ export default {
           common: [
             {
               text: "新建标准配置文件",
-              url: "/xcfg/xcfgadd?env=dev",
+              url: "/xcfg/xcfgadd?env="+this.$route.query.env,
               mode: "navigate"
             },
             {
               text: "新建Apollo模板",
-              url: "/xcfg/xcfgapolloadd?env=dev",
+              url: "/xcfg/xcfgapolloadd?env="+this.$route.query.env,
               mode: "navigate"
             }
           ]
@@ -100,11 +100,11 @@ export default {
         operations: [
           {
             text: "查看",
-            url: "/xcfgview?env=dev"
+            url: "/xcfgview?env="+this.$route.query.env
           },
           {
             text: "历史",
-            url: "xcfg/xcfghistoryview?env=dev"
+            url: "xcfg/xcfghistoryview?env="+this.$route.query.env
           }
         ]
       }
