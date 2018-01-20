@@ -21,6 +21,7 @@
                 <template v-for="item in cfg.items" >
                     <input v-if="item.type=='hidden'" :id="item.name" type="hidden" class="form-control" :value="detail[item.name]" :controltype='item.type' />
                     <br v-if="item.type=='textxml'" />
+                    <br v-if="item.type=='textnginx'" />
                     <div v-if="item.type!='hidden'" class="form-group" style="margin-right:20px;width:100%">
                         <label style="width:10%;text-align: right" for="name">{{item.title}}：</label>
                         <div class="input-group" style="vertical-align: top;width:80%;display:inline-table;margin-bottom:30px;">
@@ -35,6 +36,7 @@
                                 <input v-else-if="item.type=='text'" :id="item.name" :name="item.name" type="text" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <textarea v-else-if="item.type=='textarea'" :id="item.name" :name="item.name" style='width:270px;' class="form-control" rows="5" :controltype='item.type' :value="detail[item.name]"></textarea>
                                 <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirror.html"></iframe>
+                                <iframe v-else-if="item.type=='textnginx'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirrornginx.html"></iframe>
                                 <input v-else-if="item.type=='pwd'" :id="item.name" :name="item.name" type="password" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <select v-else-if="item.type=='combox'" :id="item.name" style='width:284px;' class="input-xlarge form-control" :controltype='item.type'>
                                     <!-- <option v-for="option in item.data" v-if="option.id==detail[item.name]" selected="selected" :value="option.id">{{option.value}}</option>
@@ -100,7 +102,8 @@
                                         </a>
                                     </p>
                                 </div>
-                                <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name+'_readonly'" :name="item.name" style='width:100%'  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirror.html"></iframe>
+                                <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name+'_readonly'" :name="item.name+'_readonly'" style='width:100%'  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirror.html"></iframe>
+                                <iframe v-else-if="item.type=='textnginx'" readonly='false' :id="item.name+'_readonly'" :name="item.name+'_readonly'" style='width:100%'  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' src="/src/ref/codemirror/codemirrornginx.html"></iframe>
                                 <ul v-else-if="item.type=='tree'" :id="item.name+1" class="ztree"></ul>
                                 <div v-else-if="item.type=='select2select'" v-html="detail[item.name]" style="width:100%" />
                                 <input v-else-if="item.type!='hidden'" class="input-xlarge form-control" disabled='disabled' :value="detail[item.name]" style="width:100%" />
@@ -164,14 +167,15 @@ export default {
       var readonly = false;
       if (iframe.id.indexOf("_readonly") > -1) {
         readonly = true;
-        iframe.onload = function() {
+        iframe.onload = function(event) {
+          var aiframe = event.target;
           var readonly = false;
-          if (iframe.id.indexOf("_readonly") > -1) {
+          if (aiframe.id.indexOf("_readonly") > -1) {
             readonly = true;
           }
-          iframe.contentWindow.setValue(
-            iframe.id,
-            Base64.decode(self.detail[iframe.id.split("_")[0]]),
+          aiframe.contentWindow.setValue(
+            aiframe.id,
+            Base64.decode(self.detail[aiframe.id.split("_")[0]]),
             readonly
           );
         };
@@ -203,6 +207,7 @@ export default {
       }
     },
     btnEdit: function() {
+      // debugger;
       this.cfg.detailEditMode = "edit";
       this.$forceUpdate();
     },
@@ -409,6 +414,8 @@ export default {
             });
             data[this.id] = arraytemp;
           } else if (item.attr("controltype") == "textxml") {
+            data[this.id] = item[0].contentWindow.getValue();
+          }else if (item.attr("controltype") == "textnginx") {
             data[this.id] = item[0].contentWindow.getValue();
           } else if (item.attr("controltype") == "baidutext") {
             data[this.id] = UE.getEditor(this.id + "1")

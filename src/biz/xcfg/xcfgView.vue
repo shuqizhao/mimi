@@ -52,7 +52,6 @@ export default {
               $("#ApolloTemplate")
                 .parent()
                 .parent()
-                .parent()
                 .hide();
             }
           } else {
