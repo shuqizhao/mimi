@@ -62,7 +62,9 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <el-checkbox v-else-if="item.type=='yesno'" :id="item.name" :name="item.name" :checked="detail[item.name]==1" :controltype='item.type' border size="medium"></el-checkbox>
+                                <div v-else-if="item.type=='yesno'">
+                                  <el-checkbox :id="item.name"  :name="item.name" :checked="detail[item.name]==1" class="form-control" :controltype='item.type' border size="medium"></el-checkbox>
+                                </div>
                                 <div v-else-if="item.type=='select2select'" v-bind="bindSelect2Select(item.name,item.url)">
                                     <div :id="item.name+'1'"></div>
                                     <input :id="item.name" type="hidden" :value="detail[item.name]" class="form-control" />
@@ -382,6 +384,8 @@ export default {
             }
           } else if (item.attr("controltype") == "suggest") {
             data[this.id] = item.attr("data-id");
+          }else if (item.attr("controltype") == "yesno") {
+            data[this.id] = item.hasClass("is-checked")?1:0;
           } else if (item.attr("controltype") == "addline") {
             var arraytemp = [];
             item.find("input").each(function() {
