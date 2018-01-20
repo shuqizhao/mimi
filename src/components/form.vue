@@ -2,7 +2,15 @@
 <div class="content-wrapper">
     <!-- Horizontal Form -->
     <div class="box box-info" >
-        <div v-if="cfg.title" class="box-header with-border">
+        <div v-if="cfg.mode=='detailEdit'&&cfg.detailEditMode!='edit'" class="box-header with-border">
+            <h3 class="box-title">{{cfg.detailTitle}}</h3>
+            <small>{{cfg.desc}}</small>
+        </div>
+        <div v-else-if="cfg.mode=='detailEdit'&&cfg.detailEditMode=='edit'" class="box-header with-border">
+            <h3 class="box-title">{{cfg.editTitle}}</h3>
+            <small>{{cfg.desc}}</small>
+        </div>
+        <div v-else class="box-header with-border">
             <h3 class="box-title">{{cfg.title}}</h3>
             <small>{{cfg.desc}}</small>
         </div>
