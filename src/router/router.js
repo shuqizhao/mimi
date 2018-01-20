@@ -16,10 +16,11 @@ const UserView = r => require.ensure([], () => r(require('../biz/auth/userView.v
 const UserAdd = r => require.ensure([], () => r(require('../biz/auth/userAdd.vue')), 'auth')
 
 const RoleList = r => require.ensure([], () => r(require('../biz/auth/role.vue')), 'auth')
-
 const RoleView = r => require.ensure([], () => r(require('../biz/auth/roleView.vue')), 'auth')
+const RoleAdd = r => require.ensure([], () => r(require('../biz/auth/roleAdd.vue')), 'auth')
 
 const ResourceList = r => require.ensure([], () => r(require('../biz/auth/resource.vue')), 'auth')
+
 
 /**
  *  加载模块
@@ -52,6 +53,9 @@ const router = new VueRouter({
   }, {
     path: '/auth/roleview',
     component: RoleView
+  }, {
+    path: '/auth/roleadd',
+    component: RoleAdd
   }, {
     path: '/auth/resource',
     component: ResourceList

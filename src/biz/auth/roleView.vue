@@ -36,7 +36,7 @@ export default {
           }
         ],
         afterEditRender: function() {
-          $(this.$el).find("#Name").attr("disabled", true);
+           $(self.$el).find("#Name").attr("disabled", true);
         }
       }
     };
