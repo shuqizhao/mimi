@@ -247,23 +247,23 @@
     <div class="tab-content">
       <!-- Home tab content -->
       <div class="tab-pane active" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">最近操作</h3>
+        <h3 class="control-sidebar-heading">当前时间</h3>
         <ul class="control-sidebar-menu">
           <li>
             <a href="javascript:;">
               <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
               <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+                <h4 class="control-sidebar-subheading">{{getNow()}}</h4>
 
-                <p>Will be 23 on April 24th</p>
+                <p>{{getWeekDay()}}</p>
               </div>
             </a>
           </li>
         </ul>
         <!-- /.control-sidebar-menu -->
 
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <!-- <h3 class="control-sidebar-heading">Tasks Progress</h3>
         <ul class="control-sidebar-menu">
           <li>
             <a href="javascript:;">
@@ -279,7 +279,7 @@
               </div>
             </a>
           </li>
-        </ul>
+        </ul> -->
         <!-- /.control-sidebar-menu -->
 
       </div>
@@ -290,16 +290,16 @@
       <!-- Settings tab content -->
       <div class="tab-pane" id="control-sidebar-settings-tab">
         <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
+          <h3 class="control-sidebar-heading">个性设置</h3>
 
           <div class="form-group">
             <label class="control-sidebar-subheading">
-              Report panel usage
+              保持登陆状态
               <input type="checkbox" class="pull-right" checked>
             </label>
 
             <p>
-              Some information about this general settings option
+              持续一个月时间
             </p>
           </div>
           <!-- /.form-group -->
@@ -368,6 +368,39 @@ export default {
         }
       }
       return arr;
+    },
+    getNow: function() {
+      var d = new Date();
+      var str = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      return str;
+    },
+    getWeekDay: function() {
+      var str = "今天是星期";
+      var week = new Date().getDay();
+      switch (week) {
+        case 0:
+          str += "日";
+          break;
+        case 1:
+          str += "一";
+          break;
+        case 2:
+          str += "二";
+          break;
+        case 3:
+          str += "三";
+          break;
+        case 4:
+          str += "四";
+          break;
+        case 5:
+          str += "五";
+          break;
+        case 6:
+          str += "六";
+          break;
+      }
+      return str;
     }
   }
 };

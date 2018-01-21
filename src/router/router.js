@@ -39,6 +39,9 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [{
+    path: '/',
+    component: UserList
+  },{
     path: '/xcfg/dev',
     component: XcfgDevList
   },{
