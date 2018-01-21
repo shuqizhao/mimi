@@ -238,7 +238,7 @@ export default {
   methods: {
     signOut: function() {
       var self = this;
-      self.clearCookie(self.getGlobalData().LoginCookeName);
+      self.clearCookie(self.getGlobalData().LoginCookeName,self.getGlobalData().Domain);
       window.location.reload();
     },
     getMenus: function() {

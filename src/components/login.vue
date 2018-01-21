@@ -69,7 +69,6 @@ export default {
         },
         success: function(result) {
           if (result.code == 200 && result.data == 1) {
-            // self.setCookie(self.getGlobalData().LoginCookeName, "true", 1);
             window.location.reload()
           } else {
             self.$message({
