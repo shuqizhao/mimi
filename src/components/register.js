@@ -25,21 +25,25 @@ import '../components/select2select'
 
 Vue.use(ElementUI)
 
-// const Home = r => require.ensure([], () => r(require('../components/home.vue')), 'home')
-// Vue.component('home', Home);
 
-// const Login = r => require.ensure([], () => r(require('../components/login.vue')), 'login')
-// Vue.component('login', Login);
+Vue.component('list', function (resolve) {
+    require(['../components/list.vue'], resolve)
+})
+Vue.component('mform', function (resolve) {
+    require(['../components/form.vue'], resolve)
+})
+Vue.component('mimiApp', function (resolve) {
+    require(['../components/loginOrHome.vue'], resolve)
+})
 
+// const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
+// Vue.component('list', List);
 
-const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
-Vue.component('list', List);
+// const Form = r => require.ensure([], () => r(require('../components/form.vue')), 'form')
+// Vue.component('mform', Form);
 
-const Form = r => require.ensure([], () => r(require('../components/form.vue')), 'form')
-Vue.component('mform', Form);
-
-const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
-Vue.component('mimiApp', LoginOrHome);
+// const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
+// Vue.component('mimiApp', LoginOrHome);
 
 Vue.prototype.validateXML = function(xmlContent) {
     //errorCode 0是xml正确，1是xml错误，2是无法验证 
