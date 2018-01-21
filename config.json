@@ -1,6 +1,6 @@
 {
-    "ApiBaseUrl": "http://localhost:1101",
-    "Domain":"",
+    "ApiBaseUrl": "http://xcfgback.mycrm.shop",
+    "Domain":"mycrm.shop",
     "Avatar": "/src/assets/user2-160x160.jpg",
     "LoginTitle": "<b>Mi</b>mi",
     "LoginBoxMsg": "请使用指定账号登录",

@@ -1,30 +1,33 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 
-import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap/dist/css/bootstrap.css'
 
 
-//AdminLTE
-import 'admin-lte/dist/css/skins/_all-skins.min.css'
-import 'admin-lte/dist/css/AdminLTE.min.css'
+// //AdminLTE
+// import 'admin-lte/dist/css/skins/_all-skins.min.css'
+// import 'admin-lte/dist/css/AdminLTE.min.css'
 
-//font-awesome
-import 'font-awesome/css/font-awesome.min.css'
+// //font-awesome
+// import 'font-awesome/css/font-awesome.min.css'
 
-import 'ionicons/dist/css/ionicons.min.css'
+// import 'ionicons/dist/css/ionicons.min.css'
 
-import 'admin-lte/dist/css/skins/skin-blue.min.css'
+// import 'admin-lte/dist/css/skins/skin-blue.min.css'
 
-import 'bootstrap/dist/js/bootstrap'
-import 'admin-lte/dist/js/adminlte'
+// import 'bootstrap/dist/js/bootstrap'
+// import 'admin-lte/dist/js/adminlte'
 
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
 
-import '../components/select2select'
+// import '../components/select2select'
 
-Vue.use(ElementUI)
+// Vue.use(ElementUI)
 
+Vue.component('mimiApp', function (resolve) {
+  require(['../components/loginOrHome.vue'], resolve)
+})
 
 Vue.component('list', function (resolve) {
   require(['../components/list.vue'], resolve)
@@ -32,9 +35,11 @@ Vue.component('list', function (resolve) {
 Vue.component('mform', function (resolve) {
   require(['../components/form.vue'], resolve)
 })
-Vue.component('mimiApp', function (resolve) {
-  require(['../components/loginOrHome.vue'], resolve)
+
+Vue.component('loading', function (resolve) {
+  require(['../components/loading.vue'], resolve)
 })
+
 
 // const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
 // Vue.component('list', List);

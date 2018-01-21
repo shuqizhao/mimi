@@ -1,11 +1,16 @@
 <template>
-    <mimiApp></mimiApp>
+<div>
+    <mimiApp v-show="show" :show='show'></mimiApp>
+    <loading v-show="!show"></loading>   
+    </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      show: false
+    };
   }
 };
 </script>
