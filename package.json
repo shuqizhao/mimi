@@ -1,7 +1,7 @@
 {
   "name": "xiaomimi",
   "description": "for my daughter",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "author": "shuqizhao <shuqizhao@beisen.com>",
   "license": "MIT",
   "main": "src/components/register.js",
