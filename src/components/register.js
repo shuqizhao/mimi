@@ -106,7 +106,7 @@ $.ajax({
 Vue.prototype.getGlobalData = function () {
   return jsonData;
 }
-Vue.prototype.setCookie = function (cname, cvalue, exdays,domain) {
+Vue.prototype.setCookie = function (cname, cvalue, exdays, domain) {
   var d = new Date();
   d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
   var expires = "expires=" + d.toUTCString();
@@ -127,6 +127,6 @@ Vue.prototype.getCookie = function (cname) {
   return "";
 }
 //清除cookie
-Vue.prototype.clearCookie = function (cname,domain) {
-  this.setCookie(cname, "", -1);
+Vue.prototype.clearCookie = function (cname, domain) {
+  this.setCookie(cname, "", -1, domain);
 }
