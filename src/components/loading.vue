@@ -109,7 +109,7 @@ export default {
     },
     // 弹出层显示的时候，没有滚动条
     noScroll() {
-      document.body.style.cssText = "overflow:hidden;";
+      // document.body.style.cssText = "overflow:hidden;";
     },
     // 弹出层消失后，滚动条显示
     hasScroll() {

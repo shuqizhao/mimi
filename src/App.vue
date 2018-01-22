@@ -1,7 +1,6 @@
 <template>
 <div>
-    <mimiApp v-show="show" :show='show'></mimiApp>
-    <loading v-show="!show"></loading>   
+    <mimiApp></mimiApp>
     </div>
 </template>
 
@@ -9,7 +8,6 @@
 export default {
   data() {
     return {
-      show: true
     };
   }
 };

@@ -35,7 +35,6 @@ const Home = r =>
 const Login = r =>
   require.ensure([], () => r(require("../components/login.vue")), "login");
 export default {
-  props: ["show"],
   data() {
     return {
       isLogin: this.getCookie(this.getGlobalData().LoginCookeName),
