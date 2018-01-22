@@ -383,6 +383,9 @@ export default {
     var lastCfg = $.extend(true, dataTableCfg, this.cfg);
     this.dataTable = $("#tableList").DataTable(lastCfg);
     this.dataTable.on("draw", function() {
+      $(self.$el)
+      .find(".dataTables_paginate")
+      .css("margin-top", "-40px");
       $(".searchDataTableCheckItem").iCheck({
         checkboxClass: "icheckbox_flat-green",
         radioClass: "iradio_flat-green"
@@ -406,9 +409,7 @@ export default {
       checkboxClass: "icheckbox_flat-green",
       radioClass: "iradio_flat-green"
     });
-    $(self.$el)
-      .find(".dataTables_paginate")
-      .css("margin-top", "-40px");
+    
     $(self.$el)
       .find(".searchDataTableMoreOp")
       .click(function() {
