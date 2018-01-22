@@ -629,7 +629,7 @@ export default {
 
 <style>
 .dataTables_function {
-  margin-bottom: -40px;
+  /* margin-bottom: -40px; */
   min-height: 30px;
 }
 .dataTables_length {
