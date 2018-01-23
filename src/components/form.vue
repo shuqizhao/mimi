@@ -35,8 +35,8 @@
                                 <input v-if="item.type=='hidden'" :id="item.name" type="hidden" class="form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <input v-else-if="item.type=='text'" :id="item.name" :name="item.name" type="text" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <textarea v-else-if="item.type=='textarea'" :id="item.name" :name="item.name" style='width:270px;' class="form-control" rows="5" :controltype='item.type' :value="detail[item.name]"></textarea>
-                                <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' v-bind="bindIframe(item.name)" style="min-height:190px;" src="/src/ref/codemirror/codemirror.html"></iframe>
-                                <iframe v-else-if="item.type=='textnginx'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control" :controltype='item.type' v-bind="bindIframe(item.name)" style="min-height:190px;" src="/src/ref/codemirror/codemirrornginx.html"></iframe>
+                                <iframe v-else-if="item.type=='textxml'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control embed-responsive-item" :controltype='item.type' style="min-height:190px;" src="/src/ref/codemirror/codemirror.html"></iframe>
+                                <iframe v-else-if="item.type=='textnginx'" readonly='false' :id="item.name" :name="item.name"  scrolling="no" frameborder="0" class="form-control embed-responsive-item" :controltype='item.type' style="min-height:190px;" src="/src/ref/codemirror/codemirrornginx.html"></iframe>
                                 <input v-else-if="item.type=='pwd'" :id="item.name" :name="item.name" type="password" :placeholder="item.placeholder" class="input-xlarge form-control" :value="detail[item.name]" :controltype='item.type' />
                                 <select v-else-if="item.type=='combox'" :id="item.name" style='width:284px;' class="input-xlarge form-control" :controltype='item.type'>
                                     <!-- <option v-for="option in item.data" v-if="option.id==detail[item.name]" selected="selected" :value="option.id">{{option.value}}</option>
@@ -164,16 +164,10 @@ export default {
     }
     this.iframeLoad();
   },
-  destroyed: function() {
-    for (var i = 0; i < this.inters.length; i++) {
-      window.clearInterval(this.inters[i]);
-    }
-  },
   data() {
     return {
       detail: {},
-      commiting: false,
-      inters: []
+      commiting: false
     };
   },
   methods: {
@@ -533,12 +527,6 @@ export default {
           });
         }
       });
-    },
-    bindIframe: function(id) {
-      // var inter = setInterval(function() {
-      //   $("#" + id)[0].contentWindow.changeFrameHeight(id);
-      // }, 400);
-      // this.inters.push(inter);
     }
   }
 };
