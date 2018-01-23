@@ -15,7 +15,7 @@
         <div class="box-header">
             <div class="searchDataTableTop  row-fluid" style="height:auto">
               <div class="col-md-10" style="border-right:1px dashed blue">
-                  <form class="form-inline" role="form" style="margin-bottom:-25px;">
+                  <form class="form-inline" role="form" style="margin-bottom:-45px;">
                       <div v-for="column in getSearchItems()" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
                           <label class="searchColumTitle" for="name">{{column.title}}：</label>
                           <div v-if="column.type=='combox'" class="input-group" v-bind="bindCombox(column.name,column.data)">
@@ -75,9 +75,9 @@
                       </button>
                   </center>
               </div>
+            </div>
         </div>
-
-        </div>
+        <hr/>
         <div class="box-body">
             <table id="tableList" style="width:100%" class="table table-bordered table-hover">
             </table>
