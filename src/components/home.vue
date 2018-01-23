@@ -95,7 +95,7 @@
       <!-- search form (Optional) -->
       <form action="#" method="get" class="sidebar-form">
         <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
+          <input type="text" name="q" id="searchText" class="form-control" @keyup="filterMenus" placeholder="Search...">
           <span class="input-group-btn">
               <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
               </button>
@@ -108,7 +108,7 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">菜单列表</li>
         <!-- Optionally, you can add icons to the links -->
-        <li v-for="level0 in getMenusLevel0()" class="treeview menu-open">
+        <li v-for="level0 in menusLevel0" class="treeview menu-open">
           <a href="#"><i class="fa fa-folder-open-o"></i> <span>{{level0.Name}}</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -225,20 +225,25 @@ export default {
   name: "app",
   mounted: function() {
     this.getMenus();
-    this.displayName=this.getCookie('loginUser');
+    this.displayName = this.getCookie("loginUser");
   },
   data() {
     return {
       avatar: this.getGlobalData().Avatar,
       menus: [],
-      displayName:'',
-      displayTitle:''
+      menusLevel0: [],
+      menusLevel1: [],
+      displayName: "",
+      displayTitle: ""
     };
   },
   methods: {
     signOut: function() {
       var self = this;
-      self.clearCookie(self.getGlobalData().LoginCookeName,self.getGlobalData().Domain);
+      self.clearCookie(
+        self.getGlobalData().LoginCookeName,
+        self.getGlobalData().Domain
+      );
       window.location.reload();
     },
     getMenus: function() {
@@ -253,6 +258,7 @@ export default {
         success: function(result) {
           if (result.code == 200) {
             self.menus = result.data;
+            self.menusLevel0 = self.getMenusLevel0();
           }
         }
       });
@@ -262,6 +268,14 @@ export default {
     },
     filterLevel0: function(item) {
       if (item.ParentId == 0) {
+        // var searchText=$('#searchText').val();
+        // if(searchText){
+        //   if(item.Name.indexOf(searchText)!=-1){
+        //     return true;
+        //   }else{
+        //     return false;
+        //   }
+        // }
         return true;
       } else {
         return false;
@@ -271,7 +285,14 @@ export default {
       var arr = [];
       for (var i = 0; i < this.menus.length; i++) {
         if (this.menus[i].ParentId == id) {
-          arr.push(this.menus[i]);
+           var searchText=$('#searchText').val();
+            if(searchText){
+              if(this.menus[i].Name.indexOf(searchText)!=-1){
+                arr.push(this.menus[i]);
+              }
+            }else{
+              arr.push(this.menus[i]);
+            }
         }
       }
       return arr;
@@ -308,6 +329,9 @@ export default {
           break;
       }
       return str;
+    },
+    filterMenus: function() {
+       this.menusLevel0 = this.getMenusLevel0();
     }
   }
 };
