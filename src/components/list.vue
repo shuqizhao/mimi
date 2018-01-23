@@ -12,11 +12,11 @@
   </section>
   <section class="content container-fluid">
     <div class="box">
-        <div class="box-header">
+        <div v-if="SearchItemsCount!=0" class="box-header">
             <div class="searchDataTableTop  row-fluid" style="height:auto">
               <div class="col-md-10" style="border-right:1px dashed blue">
                   <form class="form-inline" role="form" style="margin-bottom:-45px;">
-                      <div v-for="column in getSearchItems()" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
+                      <div v-for="column in SearchItems" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
                           <label class="searchColumTitle" for="name">{{column.title}}：</label>
                           <div v-if="column.type=='combox'" class="input-group" v-bind="bindCombox(column.name,column.data)">
                             <div class="input-group-addon">
@@ -77,7 +77,7 @@
               </div>
             </div>
         </div>
-        <hr/>
+        <hr v-if="SearchItemsCount!=0" />
         <div class="box-body">
             <table id="tableList" style="width:100%" class="table table-bordered table-hover">
             </table>
@@ -420,9 +420,14 @@ export default {
       .click(function() {
         self.doSearch(this);
       });
+      this.SearchItemsCount=this.getSearchItemsCount();
+      this.SearchItems=this.getSearchItems();
   },
   data() {
-    return {};
+    return {
+      SearchItems:[],
+      SearchItemsCount:0
+    };
   },
   methods: {
     getSearchItems: function() {
@@ -434,6 +439,10 @@ export default {
         }
       }
       return searchColumns;
+    },
+     getSearchItemsCount: function() {
+      var searchColumns = this.getSearchItems();
+      return searchColumns.length;
     },
     bindTimer: function(id) {
       $(function() {
