@@ -7,6 +7,8 @@ export default {
     var self = this;
     return {
       cfg: {
+        title: "用户管理列表",
+        parentTitle:'权限管理',
         url: this.getGlobalData().ApiBaseUrl +"/user/list",
         columns: [
           {

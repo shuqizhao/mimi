@@ -1,14 +1,11 @@
 <template>
 <div class="content-wrapper">
   <section v-if="cfg.title" class="content-header">
-      <h1>
-        {{cfg.title}}
-        <small>{{cfg.desc}}</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="/"><i class="fa fa-dashboard"></i> {{cfg.parentTitle}}</a></li>
-        <li class="active">{{cfg.title}}</li>
-      </ol>
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item><i class="fa fa-dashboard"></i> 首页</el-breadcrumb-item>
+      <el-breadcrumb-item>{{cfg.parentTitle}}</el-breadcrumb-item>
+      <el-breadcrumb-item>{{cfg.title}}</el-breadcrumb-item>
+    </el-breadcrumb>
   </section>
   <section class="content container-fluid">
     <div class="box">
@@ -384,8 +381,8 @@ export default {
     this.dataTable = $("#tableList").DataTable(lastCfg);
     this.dataTable.on("draw", function() {
       $(self.$el)
-      .find(".dataTables_paginate")
-      .css("margin-top", "-40px");
+        .find(".dataTables_paginate")
+        .css("margin-top", "-40px");
       $(".searchDataTableCheckItem").iCheck({
         checkboxClass: "icheckbox_flat-green",
         radioClass: "iradio_flat-green"
@@ -409,7 +406,7 @@ export default {
       checkboxClass: "icheckbox_flat-green",
       radioClass: "iradio_flat-green"
     });
-    
+
     $(self.$el)
       .find(".searchDataTableMoreOp")
       .click(function() {
@@ -420,13 +417,13 @@ export default {
       .click(function() {
         self.doSearch(this);
       });
-      this.SearchItemsCount=this.getSearchItemsCount();
-      this.SearchItems=this.getSearchItems();
+    this.SearchItemsCount = this.getSearchItemsCount();
+    this.SearchItems = this.getSearchItems();
   },
   data() {
     return {
-      SearchItems:[],
-      SearchItemsCount:0
+      SearchItems: [],
+      SearchItemsCount: 0
     };
   },
   methods: {
@@ -440,7 +437,7 @@ export default {
       }
       return searchColumns;
     },
-     getSearchItemsCount: function() {
+    getSearchItemsCount: function() {
       var searchColumns = this.getSearchItems();
       return searchColumns.length;
     },
