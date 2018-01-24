@@ -238,10 +238,10 @@ export default {
         onclick: false,
         focusInvalid: false,
         onkeyup: false,
-        // onkeyup: function(element) {
-        //   //console.log(element);
-        //   $(element).valid();
-        // },
+        onkeyup: function(element) {
+          //console.log(element);
+          $(element).valid();
+        },
         errorPlacement: function(error, element) {
           if (element.attr("controltype") == "suggest") {
             element
@@ -320,10 +320,14 @@ export default {
             element.attr("data-placement", "top");
             element.attr("data-original-title", error.text());
             element.tooltip("show");
+            element
+              .parent()
+              .parent()
+              .addClass("has-error");
           }
 
           if (element.attr("controltype") != "suggest") {
-            if (error.text()) {
+            if (self.commiting && error.text()) {
               self.$notify({
                 title: "验证未通过",
                 message: error.text(),
@@ -331,7 +335,7 @@ export default {
                 type: "warning"
               });
             }
-
+            self.commiting=false;
             // if (error.text()) {
             //   self.$message({
             //     type: "warning",
@@ -353,6 +357,10 @@ export default {
           //console.log(error);
           //console.log(element);
           $(element).tooltip("destroy");
+          $(element)
+            .parent()
+            .parent()
+            .removeClass("has-error");
         },
         submitHandler: function(form) {
           if (!self.commiting) {
