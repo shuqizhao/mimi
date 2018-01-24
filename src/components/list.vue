@@ -9,8 +9,8 @@
   </section>
   <section class="content container-fluid">
     <div class="box">
-        <div v-if="SearchItemsCount!=0" class="box-header">
-            <div class="searchDataTableTop  row-fluid" style="height:auto">
+        <div v-show="SearchItemsCount!=0" class="box-header searchDataTableTop">
+            <div class="row-fluid" style="height:auto">
               <div class="col-md-10" style="border-right:1px dashed blue">
                   <form class="form-inline" role="form" style="margin-bottom:-45px;">
                       <div v-for="column in SearchItems" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
@@ -231,22 +231,6 @@ export default {
       }
     }
 
-    var searchDataTableTop = $(this.$el).find(".searchDataTableTop");
-    if (searchColumns.length == 0) {
-      searchDataTableTop.hide();
-    }
-
-    var span10Height = searchDataTableTop.find(".col-md-10").height();
-    searchDataTableTop.find(".col-md-2").height(span10Height);
-
-    var searchButton = searchDataTableTop.find(".btn-searchDataTable");
-
-    var searchButtonHeight = searchButton.outerHeight();
-    searchButton.css(
-      "margin-top",
-      (span10Height - searchButtonHeight) / 2 + "px"
-    );
-
     var buttons = "";
     //功能按钮处理
     var functions = this.cfg.functions;
@@ -417,8 +401,22 @@ export default {
       .click(function() {
         self.doSearch(this);
       });
+
     this.SearchItemsCount = this.getSearchItemsCount();
     this.SearchItems = this.getSearchItems();
+  },
+  updated: function() {
+    var searchDataTableTop = $(this.$el).find(".searchDataTableTop");
+
+    var span10Height = searchDataTableTop.find(".col-md-10").height();
+
+    var searchButton = searchDataTableTop.find(".btn-searchDataTable");
+
+    var searchButtonHeight = searchButton.outerHeight();
+    searchButton.css(
+      "margin-top",
+      (span10Height - searchButtonHeight) / 2 + "px"
+    );
   },
   data() {
     return {
