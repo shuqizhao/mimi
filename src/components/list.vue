@@ -66,7 +66,7 @@
               </div>
               <div class="col-md-2">
                   <center>
-                      <button class="btn btn-primary btn-large btn-searchDataTable btn-app bg-purple">
+                      <button class="btn btn-primary btn-large btn-searchDataTable btn-app btn-dropbox">
                         <i class="glyphicon glyphicon-search"></i>
                         搜索
                       </button>
