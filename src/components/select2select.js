@@ -45,17 +45,21 @@
             str += "<div class='col-md-1' style='vertical-align: top;'> ";
             str += "<table>";
             str += "  <tr>";
-            str += "    <td><button class='btn btn-primary' id='" + $this.attr("id") + "btnSelectAll' type='button'>&gt;&gt;</button></td>";
+            str += '<td><button id="' + $this.attr("id") + 'btnSelectAll" type="button"  class="is-plain el-button el-button--primary el-transfer__button"><span><i class="el-icon-arrow-right"></i><i class="el-icon-arrow-right"></i></span></button></td>'
+            // str += "    <td><button class='btn btn-primary' id='" + $this.attr("id") + "btnSelectAll' type='button'>&gt;&gt;</button></td>";
             str += "  </tr>";
             str += "  <tr>";
-            str += "    <td><button class='btn btn-info' id='" + $this.attr("id") + "btnSelectOne' type='button'>&nbsp;&nbsp;&gt;</button></td>";
+            str += '<td><button id="' + $this.attr("id") + 'btnSelectOne" type="button"  class="is-plain el-button el-button--primary el-transfer__button"><span><i class="el-icon-arrow-right"></i></span></button></td>'
+            // str += "    <td><button class='btn btn-info' id='" + $this.attr("id") + "btnSelectOne' type='button'>&nbsp;&nbsp;&gt;</button></td>";
             str += "  </tr>";
-            str += "  <tr><td style='height: 50px;'></td></tr>";
+            str += "  <tr><td style=''></td></tr>";
             str += "  <tr> ";
-            str += "   <td><button class='btn btn-info' id='" + $this.attr("id") + "btnReSelectOne' type='button'>&lt;&nbsp;&nbsp;</button></td>";
+            str += "   <td><button id='" + $this.attr("id") + "btnReSelectOne' type='button' class='is-plain el-button el-button--primary el-transfer__button'><span><i class='el-icon-arrow-left'></i></span></button></td>";
+            // str += "   <td><button class='btn btn-info' id='" + $this.attr("id") + "btnReSelectOne' type='button'>&lt;&nbsp;&nbsp;</button></td>";
             str += "  </tr> ";
             str += "  <tr>  ";
-            str += "    <td><button class='btn btn-primary' id='" + $this.attr("id") + "btnReSelectAll' type='button'>&lt;&lt;</button></td>  ";
+            // str += "    <td><button class='btn btn-primary' id='" + $this.attr("id") + "btnReSelectAll' type='button'>&lt;&lt;</button></td>  ";
+            str += "   <td><button id='" + $this.attr("id") + "btnReSelectAll' type='button' class='is-plain el-button el-button--primary el-transfer__button'><span><i class='el-icon-arrow-left'></i><i class='el-icon-arrow-left'></i></span></button></td>";
             str += "  </tr> ";
             str += "</table>";
             str += "</div>";
@@ -69,10 +73,12 @@
             str += "<div class='col-md-1' style='vertical-align: top;'> ";
             str += "  <table>   ";
             str += "    <tr>    ";
-            str += "       <td><button class='btn btn-inverse' id='" + $this.attr("id") + "btnUp' type='button'>↑</button></td> ";
+            // str += "       <td><button class='btn btn-inverse' id='" + $this.attr("id") + "btnUp' type='button'>↑</button></td> ";
+            str += '<td><button id="' + $this.attr("id") + 'btnUp" type="button"  class="is-plain el-button el-button--primary el-transfer__button"><span><i class="el-icon-arrow-up"></i></span></button></td>'
             str += "    </tr> ";
             str += "    <tr>  ";
-            str += "       <td><button class='btn btn-inverse' id='" + $this.attr("id") + "btnDown' type='button'>↓</button></td>  ";
+            // str += "       <td><button class='btn btn-inverse' id='" + $this.attr("id") + "btnDown' type='button'>↓</button></td>  ";
+            str += '<td><button id="' + $this.attr("id") + 'btnDown" type="button"  class="is-plain el-button el-button--primary el-transfer__button"><span><i class="el-icon-arrow-down"></i></span></button></td>'
             str += "    </tr> ";
             str += "    <tr><td></td></tr>";
             str += "  </table>";
