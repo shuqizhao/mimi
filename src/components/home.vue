@@ -109,7 +109,7 @@
         <li class="header">菜单列表</li>
         <!-- Optionally, you can add icons to the links -->
         <li v-for="level0 in menusLevel0" class="treeview menu-open">
-          <a href="#"><i class="fa fa-folder-open-o"></i> <span>{{level0.Name}}</span>
+          <a href="#"><i class="fa fa-th"></i> <span>{{level0.Name}}</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
