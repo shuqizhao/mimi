@@ -232,6 +232,11 @@ export default {
     },
     btnCommit: function(e, handler) {
       var self = this;
+      if(!handler){
+        handler = function(){
+          self.commiting = false;
+        }
+      }
       self.commiting = true;
       var validateCfg = {
         onfocusout: false,
@@ -335,7 +340,7 @@ export default {
                 type: "warning"
               });
             }
-            self.commiting=false;
+            
             // if (error.text()) {
             //   self.$message({
             //     type: "warning",
