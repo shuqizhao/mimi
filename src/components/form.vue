@@ -3,14 +3,17 @@
     <!-- Horizontal Form -->
     <div class="box box-info" >
         <div v-if="cfg.mode=='detailEdit'&&cfg.detailEditMode!='edit'" class="box-header with-border">
+            <i class="el-icon-view" />
             <h3 class="box-title">{{cfg.detailTitle}}</h3>
             <small>{{cfg.desc}}</small>
         </div>
         <div v-else-if="cfg.mode=='detailEdit'&&cfg.detailEditMode=='edit'" class="box-header with-border">
+            <i class="el-icon-edit" />
             <h3 class="box-title">{{cfg.editTitle}}</h3>
             <small>{{cfg.desc}}</small>
         </div>
         <div v-else class="box-header with-border">
+            <i class="el-icon-circle-plus" />
             <h3 class="box-title">{{cfg.title}}</h3>
             <small>{{cfg.desc}}</small>
         </div>
@@ -116,7 +119,7 @@
                 </template> 
             </div>
             <!-- /.box-body -->
-            <div class="box-footer">
+            <div class="box-footer navbar-fixed-bottom">
                 <!-- Button -->
                 <center>
                     <div v-if="cfg.mode=='edit'||cfg.mode=='create'">
