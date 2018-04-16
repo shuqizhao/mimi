@@ -26,6 +26,10 @@ import VueResource from 'vue-resource'
 // Vue.use(ElementUI)
 
 Vue.component('mimiApp', function (resolve) {
+  require(['../components/mimiApp.vue'], resolve)
+})
+
+Vue.component('loginOrHome', function (resolve) {
   require(['../components/loginOrHome.vue'], resolve)
 })
 
