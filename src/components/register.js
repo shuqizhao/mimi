@@ -25,39 +25,39 @@ import VueResource from 'vue-resource'
 
 // Vue.use(ElementUI)
 
-// Vue.component('mimiApp', function (resolve) {
-//   require(['../components/mimiApp.vue'], resolve)
-// })
+Vue.component('mimiApp', function (resolve) {
+  require(['../components/mimiApp.vue'], resolve)
+})
 
-// Vue.component('loginOrHome', function (resolve) {
-//   require(['../components/loginOrHome.vue'], resolve)
-// })
+Vue.component('loginOrHome', function (resolve) {
+  require(['../components/loginOrHome.vue'], resolve)
+})
 
-// Vue.component('list', function (resolve) {
-//   require(['../components/list.vue'], resolve)
-// })
-// Vue.component('mform', function (resolve) {
-//   require(['../components/form.vue'], resolve)
-// })
+Vue.component('list', function (resolve) {
+  require(['../components/list.vue'], resolve)
+})
+Vue.component('mform', function (resolve) {
+  require(['../components/form.vue'], resolve)
+})
 
-// Vue.component('loading', function (resolve) {
-//   require(['../components/loading.vue'], resolve)
-// })
+Vue.component('loading', function (resolve) {
+  require(['../components/loading.vue'], resolve)
+})
 
-const mimiApp = r => require.ensure([], () => r(require('../components/mimiApp.vue')), 'mimiApp')
-Vue.component('mimiApp', mimiApp);
+// const mimiApp = r => require.ensure([], () => r(require('../components/mimiApp.vue')), 'mimiApp')
+// Vue.component('mimiApp', mimiApp);
 
-const loading = r => require.ensure([], () => r(require('../components/loading.vue')), 'loading')
-Vue.component('loading', loading);
+// const loading = r => require.ensure([], () => r(require('../components/loading.vue')), 'loading')
+// Vue.component('loading', loading);
 
-const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
-Vue.component('LoginOrHome', LoginOrHome);
+// const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
+// Vue.component('LoginOrHome', LoginOrHome);
 
-const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
-Vue.component('list', List);
+// const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
+// Vue.component('list', List);
 
-const Form = r => require.ensure([], () => r(require('../components/form.vue')), 'form')
-Vue.component('mform', Form);
+// const Form = r => require.ensure([], () => r(require('../components/form.vue')), 'form')
+// Vue.component('mform', Form);
 
 
 
