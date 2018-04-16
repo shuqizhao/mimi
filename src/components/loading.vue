@@ -15,10 +15,12 @@ export default {
   },
   mounted() {
     self = this;
-    require(["../components/form.vue"]);
-    require(["../components/list.vue"]);
     require(["../components/loginOrHome.vue"], function() {
-      self.$emit("hide");
+      require(["../components/list.vue"],function(){
+        require(["../components/form.vue"],function(){
+          self.$emit("hide");
+        });
+      });
     });
   }
 };
