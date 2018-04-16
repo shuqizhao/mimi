@@ -50,14 +50,16 @@ Vue.component('mimiApp', mimiApp);
 const loading = r => require.ensure([], () => r(require('../components/loading.vue')), 'loading')
 Vue.component('loading', loading);
 
+const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
+Vue.component('LoginOrHome', LoginOrHome);
+
 const List = r => require.ensure([], () => r(require('../components/list.vue')), 'list')
 Vue.component('list', List);
 
 const Form = r => require.ensure([], () => r(require('../components/form.vue')), 'form')
 Vue.component('mform', Form);
 
-const LoginOrHome = r => require.ensure([], () => r(require('../components/loginOrHome.vue')), 'loginOrHome')
-Vue.component('LoginOrHome', LoginOrHome);
+
 
 jQuery.ajaxSetup({
   xhrFields: {
