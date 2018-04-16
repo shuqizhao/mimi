@@ -15,6 +15,8 @@ export default {
   },
   mounted() {
     self = this;
+    require(["../components/form.vue"]);
+    require(["../components/list.vue"]);
     require(["../components/loginOrHome.vue"], function() {
       self.$emit("hide");
     });
