@@ -15,7 +15,6 @@ export default {
   },
   mounted() {
     self = this;
-    require(["bootstrap/dist/js/bootstrap"], function() {});
     require(["../components/form.vue"], function() {});
     require(["../components/list.vue"], function() {});
     require(["../components/loginOrHome.vue"], function() {
