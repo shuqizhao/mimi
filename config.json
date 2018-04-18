@@ -1,7 +1,7 @@
 {
     "ApiBaseUrl": "http://localhost:1101",
     "Domain":"mycrm.shop",
-    "Avatar": "/src/assets/user2-160x160.jpg",
+    "Avatar": "/src/assets/avatar.jpg",
     "LoginTitle": "<b>Mi</b>mi",
     "LoginBoxMsg": "请使用指定账号登录",
     "LoginUrl": "/auth/login",
