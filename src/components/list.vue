@@ -10,14 +10,14 @@
   <section class="content container-fluid">
     <div class="box">
         <div v-show="SearchItemsCount!=0" class="box-header searchDataTableTop">
-          <el-collapse v-model="activeName"  @change="handleChange">
+          <el-collapse v-model="activeNames"  @change="onCollapseChange">
             <el-collapse-item name="1">
               <template slot="title">
-                  <center><span id="listSearchAreaBtn">隐藏搜索</span></center>
+                  <center><span id="listSearchAreaBtn">隐藏搜索</span><i id="listSearchAreaI" class="el-icon-arrow-up"></i></center>
               </template>
-              <div class="row-fluid" style="height:auto">
+              <div>
                 <div class="col-md-10" style="border-right:1px dashed blue">
-                    <form class="form-inline" role="form" style="margin-bottom:-45px;">
+                    <form class="form-inline" role="form">
                         <div v-for="column in SearchItems" :key="column.name" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
                             <label class="searchColumTitle" for="name">{{column.title}}：</label>
                             <div v-if="column.type=='combox'" class="input-group" >
@@ -79,7 +79,6 @@
                     </center>
                 </div>
               </div>
-              <br/><br/><br/><br/>
             </el-collapse-item>
           </el-collapse>
        
@@ -414,6 +413,12 @@ export default {
 
     this.SearchItemsCount = this.getSearchItemsCount();
     this.SearchItems = this.getSearchItems();
+
+    if(self.cfg.isShowSearchArea){
+      self.activeNames = ['1'];
+    }
+
+    $(self.$el).find('.el-collapse-item__arrow').hide();
   },
   updated: function() {
     var searchDataTableTop = $(this.$el).find(".searchDataTableTop");
@@ -432,7 +437,7 @@ export default {
     return {
       SearchItems: [],
       SearchItemsCount: 0,
-      activeName: '1',
+      activeNames: ['0'],
       value:""
     };
   },
@@ -441,12 +446,15 @@ export default {
       $('#'+id).val(val);
       debugger;
     },
-    handleChange:function(val){
+    onCollapseChange:function(val){
       var txt = $('#listSearchAreaBtn').text();
+      $('#listSearchAreaBtn').next().removeClass();
       if(txt=='隐藏搜索'){
          $('#listSearchAreaBtn').text('显示搜索');
+         $('#listSearchAreaBtn').next().addClass('el-icon-arrow-down');
       }else{
         $('#listSearchAreaBtn').text('隐藏搜索');
+        $('#listSearchAreaBtn').next().addClass('el-icon-arrow-up');
       }
     },
     getSearchItems: function() {

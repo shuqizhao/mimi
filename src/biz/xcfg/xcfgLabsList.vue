@@ -40,7 +40,7 @@ export default {
             data: [
               {
                 id: -1,
-                value: ""
+                value: "不限"
               },
               {
                 id: 1,
