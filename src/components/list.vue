@@ -10,71 +10,81 @@
   <section class="content container-fluid">
     <div class="box">
         <div v-show="SearchItemsCount!=0" class="box-header searchDataTableTop">
-            <div class="row-fluid" style="height:auto">
-              <div class="col-md-10" style="border-right:1px dashed blue">
-                  <form class="form-inline" role="form" style="margin-bottom:-45px;">
-                      <div v-for="column in SearchItems" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
-                          <label class="searchColumTitle" for="name">{{column.title}}：</label>
-                          <div v-if="column.type=='combox'" class="input-group" v-bind="bindCombox(column.name,column.data)">
-                            <div class="input-group-addon">
-                              <i class="fa fa-fw fa-list-alt"></i>
-                            </div>
-                            <select class="form-control" :id="column.name" style="width:175px;">
-                                <option v-for="item in column.data" :value="item.id">{{item.value}}</option>
-                            </select>
-                          </div>
-                          <div v-else-if="column.type=='timer'" class="input-group" v-bind="bindTimer(column.name)">
-                             <div class="input-group-addon">
-                              <i class="fa fa-fw fa-clock-o"></i>
-                            </div>
-                            <input type="text" class="form-control" :id="column.name" :name="column.name"/>
-                          </div>
-                          <div v-else-if="column.type=='suggest'" class="input-group">
+          <el-collapse v-model="activeName"  @change="handleChange">
+            <el-collapse-item name="1">
+              <template slot="title">
+                  <center><span id="listSearchAreaBtn">隐藏搜索</span></center>
+              </template>
+              <div class="row-fluid" style="height:auto">
+                <div class="col-md-10" style="border-right:1px dashed blue">
+                    <form class="form-inline" role="form" style="margin-bottom:-45px;">
+                        <div v-for="column in SearchItems" :key="column.name" class="form-group" style="margin-bottom:25px;margin-right:15px;display:inline-block;">
+                            <label class="searchColumTitle" for="name">{{column.title}}：</label>
+                            <div v-if="column.type=='combox'" class="input-group" >
                               <div class="input-group-addon">
-                                <i class="fa fa-fw  fa-th-list"></i>
+                                <i class="fa fa-fw fa-list-alt"></i>
                               </div>
-                              <input :id="column.name" :name="column.name" type="text" style="width:168px;margin-right:0px;" class="form-control" :controltype='column.type' />
-                              <div class="input-group-btn" style="display:inline;margin-left:0px;">
-                                  <button type="button" class="btn btn-default dropdown-toggle btn-suggest" data-toggle="dropdown">
-                                      <span class="caret"></span>
-                                  </button>
-                                  <ul :class="'dropdown-menu dropdown-menu-right dropdown-suggest-'+column.name" role="menu">
-                                  </ul>
-                              </div>
-                          </div>
-                          <!-- <script v-if="column.type=='suggest'" type="text/javascript">
-                              var data=[];
-                              <% _.each(column.data, function(option,i) { %>
-                                  data.push({id:"<%=option.id%>",word:"<%=option.word%>",description:"<%=option.description%>"});
-                              <%})%>
-                                  $("#<%=column.name%>").bsSuggest({
-                                  indexId: 0, //data.value 的第几个数据，作为input输入框的内容
-                                  indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
-                                  data: {
-                                  'value':data
-                              }
-                              });
-                          </script> -->
-                          <div v-else class="input-group">
-                            <div class="input-group-addon">
-                              <i class="fa fa-fw fa-text-height"></i>
+                               <input type="hidden" class="form-control" :id="column.name" :name="column.name"/>
+                               <el-select v-model="value" placeholder="请选择" @change="onSelectChange(value,column.name)">
+                                <el-option v-for="item in column.data" :key="item.id" :label="item.value" :value="item.id"> </el-option>
+                              </el-select>
                             </div>
-                            <input type="text" class="form-control" :id="column.name" autocomplete="off"/>
-                          </div>
-                      </div>
-                  </form>
+                            <div v-else-if="column.type=='timer'" class="input-group" v-bind="bindTimer(column.name)">
+                              <div class="input-group-addon">
+                                <i class="fa fa-fw fa-clock-o"></i>
+                              </div>
+                              <input type="text" class="form-control" :id="column.name" :name="column.name"/>
+                            </div>
+                            <div v-else-if="column.type=='suggest'" class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-fw  fa-th-list"></i>
+                                </div>
+                                <input :id="column.name" :name="column.name" type="text" style="width:168px;margin-right:0px;" class="form-control" :controltype='column.type' />
+                                <div class="input-group-btn" style="display:inline;margin-left:0px;">
+                                    <button type="button" class="btn btn-default dropdown-toggle btn-suggest" data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul :class="'dropdown-menu dropdown-menu-right dropdown-suggest-'+column.name" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- <script v-if="column.type=='suggest'" type="text/javascript">
+                                var data=[];
+                                <% _.each(column.data, function(option,i) { %>
+                                    data.push({id:"<%=option.id%>",word:"<%=option.word%>",description:"<%=option.description%>"});
+                                <%})%>
+                                    $("#<%=column.name%>").bsSuggest({
+                                    indexId: 0, //data.value 的第几个数据，作为input输入框的内容
+                                    indexKey: 1, //data.value 的第几个数据，作为input输入框的内容
+                                    data: {
+                                    'value':data
+                                }
+                                });
+                            </script> -->
+                            <div v-else class="input-group">
+                              <div class="input-group-addon">
+                                <i class="fa fa-fw fa-text-height"></i>
+                              </div>
+                              <input type="text" class="form-control" :id="column.name" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2">
+                    <center>
+                        <button class="btn btn-primary btn-large btn-searchDataTable btn-app btn-dropbox">
+                          <i class="glyphicon glyphicon-search"></i>
+                          搜索
+                        </button>
+                    </center>
+                </div>
               </div>
-              <div class="col-md-2">
-                  <center>
-                      <button class="btn btn-primary btn-large btn-searchDataTable btn-app btn-dropbox">
-                        <i class="glyphicon glyphicon-search"></i>
-                        搜索
-                      </button>
-                  </center>
-              </div>
-            </div>
+              <br/><br/><br/><br/>
+            </el-collapse-item>
+          </el-collapse>
+       
         </div>
-        <hr v-if="SearchItemsCount!=0" />
+        <!-- <hr v-if="SearchItemsCount!=0" /> -->
         <div class="box-body">
             <table id="tableList" style="width:100%" class="table table-bordered table-hover">
             </table>
@@ -421,10 +431,24 @@ export default {
   data() {
     return {
       SearchItems: [],
-      SearchItemsCount: 0
+      SearchItemsCount: 0,
+      activeName: '1',
+      value:""
     };
   },
   methods: {
+    onSelectChange:function(val,id){
+      $('#'+id).val(val);
+      debugger;
+    },
+    handleChange:function(val){
+      var txt = $('#listSearchAreaBtn').text();
+      if(txt=='隐藏搜索'){
+         $('#listSearchAreaBtn').text('显示搜索');
+      }else{
+        $('#listSearchAreaBtn').text('隐藏搜索');
+      }
+    },
     getSearchItems: function() {
       var searchColumns = [];
       for (var i = 0; i < this.cfg.columns.length; i++) {
@@ -474,16 +498,6 @@ export default {
           }
         );
       });
-    },
-    bindCombox: function(id, data) {
-      for (var i = 0; i < data.length; i++) {
-        var item = data[i];
-        $(this.$el)
-          .find("#" + id)
-          .insertAfter(
-            '<option value="' + item.id + '">' + item.value + "</option>"
-          );
-      }
     },
     searchDataTableMoreOp: function(e) {
       var self = this;
