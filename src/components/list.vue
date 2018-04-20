@@ -10,10 +10,10 @@
   <section class="content container-fluid">
     <div class="box">
         <div v-show="SearchItemsCount!=0" class="box-header searchDataTableTop">
-          <el-collapse v-model="activeNames"  @change="onCollapseChange">
-            <el-collapse-item name="1">
+          <el-collapse v-model="activeName"  @change="onCollapseChange">
+            <el-collapse-item name="true" >
               <template slot="title">
-                  <center><span id="listSearchAreaBtn">隐藏搜索</span><i id="listSearchAreaI" class="el-icon-arrow-up"></i></center>
+                  <center> <el-button round><span id="listSearchAreaBtn">展开搜索区</span><i id="listSearchAreaI" class="el-icon-arrow-down"></i></el-button></center>
               </template>
               <div>
                 <div class="col-md-10" style="border-right:1px dashed blue">
@@ -414,11 +414,12 @@ export default {
     this.SearchItemsCount = this.getSearchItemsCount();
     this.SearchItems = this.getSearchItems();
 
-    if(self.cfg.isShowSearchArea){
-      self.activeNames = ['1'];
-    }
-
     $(self.$el).find('.el-collapse-item__arrow').hide();
+
+    if(self.activeName=="true"){
+      $('#listSearchAreaBtn').text('收起搜索区');
+      $('#listSearchAreaBtn').next().addClass('el-icon-arrow-up');
+    }
   },
   updated: function() {
     var searchDataTableTop = $(this.$el).find(".searchDataTableTop");
@@ -437,7 +438,7 @@ export default {
     return {
       SearchItems: [],
       SearchItemsCount: 0,
-      activeNames: ['0'],
+      activeName: this.cfg.isShowSearchArea,
       value:""
     };
   },
@@ -449,11 +450,11 @@ export default {
     onCollapseChange:function(val){
       var txt = $('#listSearchAreaBtn').text();
       $('#listSearchAreaBtn').next().removeClass();
-      if(txt=='隐藏搜索'){
-         $('#listSearchAreaBtn').text('显示搜索');
+      if(txt=='收起搜索区'){
+         $('#listSearchAreaBtn').text('展开搜索区');
          $('#listSearchAreaBtn').next().addClass('el-icon-arrow-down');
       }else{
-        $('#listSearchAreaBtn').text('隐藏搜索');
+        $('#listSearchAreaBtn').text('收起搜索区');
         $('#listSearchAreaBtn').next().addClass('el-icon-arrow-up');
       }
     },
